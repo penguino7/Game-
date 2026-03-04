@@ -53,13 +53,12 @@ function handleTileAction(tile) {
   if (id <= 10) {
     // 10 câu đầu tiên trỏ về form Q&A trắc nghiệm
     window.location.href = `qna.html?id=${id}`;
+  } else if (id === 11) {
+    // Nếu click vào câu 11 -> Mở thẳng trang Mini-game kéo thả
+    window.location.href = `mg11.html`;
   } else {
-    // Từ câu 11 trở đi, sẽ trỏ về các trang mini-game khác
-    // Tạm thời để alert cho đến khi cậu tạo xong trang minigame
-    alert(
-      `Challenge ${id} là một dạng Mini-game. Chúng ta sẽ mở khóa trang này sau!`,
-    );
-    // Code sau này sẽ là: window.location.href = `minigame.html?id=${id}`;
+    // Các câu từ 12 trở đi vẫn tạm khóa chờ cậu xây dựng tiếp
+    alert(`Mini-game ${id} đang được xây dựng! Chúng ta sẽ sớm hoàn thiện nó.`);
   }
 }
 

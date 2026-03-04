@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini-game 11 — Security Challenge</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mg11.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="frame glass-frame">
+        <header class="mg-header">
+          <div class="header-info">
+            <div class="q-badge">MINI-GAME 11</div>
+            <h1>Threat Matching</h1>
+            <p>Kéo các nhãn lỗ hổng vào đúng khối mã bị lỗi tương ứng.</p>
+          </div>
+          <a class="btn-ghost" href="questions.html">← Abort</a>
+        </header>
+
+        <main class="mg-container">
+          <div class="mg-source" id="sourceContainer">
+            <div class="mg-label" draggable="true" data-type="sqli">
+              SQL Injection
+            </div>
+            <div class="mg-label" draggable="true" data-type="xss">
+              Stored XSS
+            </div>
+            <div class="mg-label" draggable="true" data-type="idor">IDOR</div>
+            <div class="mg-label" draggable="true" data-type="path">
+              Path Traversal
+            </div>
+          </div>
+
+          <div class="mg-targets" id="targetContainer">
+            <div class="mg-slot" data-match="xss">
+              <pre>db.comments.insert({text: user_input});</pre>
+              <div class="drop-zone">Drop here...</div>
+            </div>
+            <div class="mg-slot" data-match="sqli">
+              <pre>query = "SELECT * FROM users WHERE id = " + id;</pre>
+              <div class="drop-zone">Drop here...</div>
+            </div>
+            <div class="mg-slot" data-match="path">
+              <pre>file = open("/var/www/uploads/" + filename);</pre>
+              <div class="drop-zone">Drop here...</div>
+            </div>
+            <div class="mg-slot" data-match="idor">
+              <pre>
+user = db.query("SELECT * FROM orders WHERE id=" + req.params.id);</pre
+              >
+              <div class="drop-zone">Drop here...</div>
+            </div>
+          </div>
+        </main>
+
+        <footer class="mg-footer">
+          <div id="statusMessage" class="feedback-box hidden"></div>
+          <button id="finishBtn" class="btn-primary" style="display: none">
+            Return to Board
+          </button>
+        </footer>
+      </div>
+    </div>
+
+    <script src="js/mg11.js"></script>
+  </body>
+</html>
