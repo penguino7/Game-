@@ -1,12 +1,12 @@
 // 1. Lấy ID từ URL
 const urlParams = new URLSearchParams(window.location.search);
-const currentId = parseInt(urlParams.get("id")) || 1; // Mặc định là 1 nếu không có id
-const questionData = QNA_DATABASE[currentId];
+const currentId = parseInt(urlParams.get("id")) || 1;
+const questionData =
+  typeof QNA_DATABASE !== "undefined" ? QNA_DATABASE[currentId] : null;
 
 // 2. DOM Elements
 const qLabel = document.getElementById("qLabel");
 const qTopic = document.getElementById("qTopic");
-const qPoints = document.getElementById("qPoints");
 const qText = document.getElementById("qText");
 const qSnippetBox = document.getElementById("qSnippetBox");
 const qSnippet = document.getElementById("qSnippet");
@@ -18,73 +18,74 @@ let selectedOptionIdx = null;
 
 // 3. Render giao diện
 if (questionData) {
-  qLabel.textContent = `CHALLENGE ${String(currentId).padStart(2, "0")}`;
-  qTopic.textContent = questionData.topic;
-  qPoints.textContent = `${questionData.points} PTS`;
-  qText.textContent = questionData.text;
+  if (qLabel)
+    qLabel.textContent = `CHALLENGE ${String(currentId).padStart(2, "0")}`;
+  if (qTopic) qTopic.textContent = questionData.topic;
+  if (qText) qText.textContent = questionData.text;
 
   // Render code snippet nếu có
-  if (questionData.snippet) {
+  if (questionData.snippet && qSnippetBox && qSnippet) {
     qSnippetBox.style.display = "block";
     qSnippet.textContent = questionData.snippet;
   }
 
   // Render đáp án
-  const letters = ["A", "B", "C", "D"];
-  questionData.options.forEach((opt, idx) => {
-    const btn = document.createElement("button");
-    btn.className = "opt-btn";
-    btn.innerHTML = `<span class="opt-letter">${letters[idx]}</span> <span class="opt-text">${opt}</span>`;
+  if (qOptions) {
+    qOptions.innerHTML = ""; // Xóa sạch dữ liệu cũ
+    const letters = ["A", "B", "C", "D"];
+    questionData.options.forEach((opt, idx) => {
+      const btn = document.createElement("button");
+      btn.className = "opt-btn";
+      btn.innerHTML = `<span class="opt-letter">${letters[idx]}</span> <span class="opt-text">${opt}</span>`;
 
-    // Xử lý sự kiện click chọn đáp án
-    btn.addEventListener("click", () => {
-      // Bỏ chọn các nút khác
-      document
-        .querySelectorAll(".opt-btn")
-        .forEach((b) => b.classList.remove("selected"));
-      // Chọn nút này
-      btn.classList.add("selected");
-      selectedOptionIdx = idx;
-      submitBtn.disabled = false; // Bật nút Submit
+      // Xử lý click
+      btn.addEventListener("click", () => {
+        document
+          .querySelectorAll(".opt-btn")
+          .forEach((b) => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        selectedOptionIdx = idx;
+        submitBtn.disabled = false;
+      });
+
+      qOptions.appendChild(btn);
     });
-
-    qOptions.appendChild(btn);
-  });
+  }
 } else {
-  qText.textContent = "Error: Question data not found!";
+  if (qText) qText.textContent = "Error: Question data not found!";
 }
 
-// 4. Xử lý khi bấm nút Submit
-submitBtn.addEventListener("click", () => {
-  if (selectedOptionIdx === null) return;
+// 4. Xử lý khi bấm Submit
+if (submitBtn) {
+  submitBtn.addEventListener("click", () => {
+    if (selectedOptionIdx === null) return;
 
-  submitBtn.disabled = true;
-  const buttons = document.querySelectorAll(".opt-btn");
+    submitBtn.disabled = true;
+    const buttons = document.querySelectorAll(".opt-btn");
+    buttons.forEach((b) => (b.style.pointerEvents = "none"));
 
-  // Khóa không cho click nữa
-  buttons.forEach((b) => (b.style.pointerEvents = "none"));
+    if (selectedOptionIdx === questionData.correctIdx) {
+      buttons[selectedOptionIdx].classList.add("correct");
+      feedbackBox.textContent = "Access Granted! Payload successful.";
+      feedbackBox.className = "feedback-box success";
+      feedbackBox.classList.remove("hidden");
 
-  // Kiểm tra đúng sai
-  if (selectedOptionIdx === questionData.correctIdx) {
-    buttons[selectedOptionIdx].classList.add("correct");
-    feedbackBox.textContent = "Access Granted! Payload successful.";
-    feedbackBox.className = "feedback-box success";
+      // Lưu vào localStorage
+      let states = JSON.parse(localStorage.getItem("game_states") || "{}");
+      states[currentId] = "DONE";
+      localStorage.setItem("game_states", JSON.stringify(states));
+    } else {
+      buttons[selectedOptionIdx].classList.add("wrong");
+      buttons[questionData.correctIdx].classList.add("correct");
+      feedbackBox.textContent = "Access Denied! Payload failed.";
+      feedbackBox.className = "feedback-box error";
+      feedbackBox.classList.remove("hidden");
+    }
 
-    // TẠI ĐÂY: Lưu trạng thái "DONE" vào localStorage để lát quay lại grid nó đổi màu
-    let states = JSON.parse(localStorage.getItem("game_states") || "{}");
-    states[currentId] = "DONE";
-    localStorage.setItem("game_states", JSON.stringify(states));
-  } else {
-    buttons[selectedOptionIdx].classList.add("wrong");
-    buttons[questionData.correctIdx].classList.add("correct"); // Hiện đáp án đúng
-    feedbackBox.textContent = "Access Denied! Payload failed.";
-    feedbackBox.className = "feedback-box error";
-  }
-
-  // Đổi nút Submit thành nút quay lại bảng
-  setTimeout(() => {
-    submitBtn.textContent = "Return to Board";
-    submitBtn.disabled = false;
-    submitBtn.onclick = () => (window.location.href = "questions.html");
-  }, 1000);
-});
+    setTimeout(() => {
+      submitBtn.textContent = "Return to Board";
+      submitBtn.disabled = false;
+      submitBtn.onclick = () => (window.location.href = "questions.html");
+    }, 1500);
+  });
+}

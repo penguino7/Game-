@@ -9,24 +9,22 @@
   </head>
   <body>
     <div class="page">
-      <div class="frame">
-        <header class="qna-top">
-          <div class="qna-header-left">
-            <div class="q-badge" id="qLabel">CHALLENGE 00</div>
-            <h1 id="qTopic">Loading Topic...</h1>
-          </div>
-          <div class="qna-header-right">
-            <div class="status-pill">
-              <span class="status-dot"></span>
-              <span id="qPoints">-- PTS</span>
-            </div>
-            <a class="btn-ghost qna-back" href="questions.html">← Abort</a>
-          </div>
-        </header>
+      <div class="frame glass-frame">
+        <div class="qna-split-layout">
+          <div class="qna-col-left" id="qOptions"></div>
 
-        <main class="qna-main">
-          <div class="qna-content">
-            <h2 id="qText" class="q-text">Loading question...</h2>
+          <div class="qna-col-center">
+            <div class="floating-element">
+              <div class="hacker-icon">💻</div>
+              <div class="shadow"></div>
+            </div>
+          </div>
+
+          <div class="qna-col-right">
+            <div class="q-badge" id="qLabel">CHALLENGE 00</div>
+            <h2 id="qTopic" class="q-topic-title">Loading Topic...</h2>
+
+            <div class="q-text" id="qText">Loading question...</div>
 
             <div
               id="qSnippetBox"
@@ -35,17 +33,18 @@
             >
               <div class="term" id="qSnippet"></div>
             </div>
+
+            <div class="action-box">
+              <div id="feedbackBox" class="feedback-box hidden"></div>
+              <div class="btn-group">
+                <button id="submitBtn" class="btn-primary" disabled>
+                  Submit
+                </button>
+                <a class="btn-ghost" href="questions.html">← Abort</a>
+              </div>
+            </div>
           </div>
-
-          <div class="qna-options" id="qOptions"></div>
-        </main>
-
-        <footer class="qna-footer">
-          <div id="feedbackBox" class="feedback-box hidden"></div>
-          <button id="submitBtn" class="btn-primary" disabled>
-            Submit Payload
-          </button>
-        </footer>
+        </div>
       </div>
     </div>
     <script src="js/qna.data.js"></script>
