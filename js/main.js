@@ -13,7 +13,7 @@ const howBtn = document.getElementById("howBtn");
 if (howBtn) {
   howBtn.addEventListener("click", () => {
     alert(
-      "How it works: 4 teams • 30 questions • earn tokens • final boss round.",
+      "How it works: 4 teams • 22 questions • earn tokens • final boss round.",
     );
   });
 }
