@@ -9,10 +9,10 @@ const statusMsg = document.getElementById("statusMessage");
 const finishBtn = document.getElementById("finishBtn");
 
 // =========================================
-// DATA: CÂU HỎI NHIỆM VỤ VÀ TỪ KHÓA
+// DATA VÀ LUẬT CHƠI
 // =========================================
 const GAME_DATA = {
-  question: "🎯 Nhiệm vụ: Đập nát tất cả các loại MÃ ĐỘC!",
+  question: "🎯 Nhiệm vụ: Đập nát tất cả MÃ ĐỘC để đạt 100 Điểm!",
   targets: [
     "Trojan",
     "Worm",
@@ -21,16 +21,18 @@ const GAME_DATA = {
     "Adware",
     "Rootkit",
     "Botnet",
-  ], // Đập bọn này ăn điểm
-  decoys: ["Firewall", "VPN", "Antivirus", "HTTPS", "WAF", "MFA", "Token"], // Đập nhầm bọn này trừ điểm
+  ],
+  decoys: ["Firewall", "VPN", "Antivirus", "HTTPS", "WAF", "MFA", "Token"],
 };
+
+const TARGET_SCORE = 100;
 
 let holes = [];
 let score = 0;
 let timeLeft = 45;
 let isGameActive = false;
 let gameInterval;
-let moleTimers = [];
+let spawnerInterval; // Bộ sinh chuột liên tục
 
 // 1. Khởi tạo Bàn chơi
 function initBoard() {
@@ -42,9 +44,8 @@ function initBoard() {
     hole.className = "hole";
 
     const mole = document.createElement("div");
-    mole.className = "mole neutral"; // Khởi tạo màu trung tính
+    mole.className = "mole neutral";
 
-    // Bắt sự kiện ĐẬP
     mole.addEventListener("pointerdown", (e) => {
       if (!e.isTrusted || !isGameActive) return;
       whack(mole);
@@ -52,7 +53,8 @@ function initBoard() {
 
     hole.appendChild(mole);
     whackBoard.appendChild(hole);
-    holes.push({ holeEl: hole, moleEl: mole, isUp: false });
+    // Mỗi hố lưu trữ timer riêng để không bị đè lệnh
+    holes.push({ holeEl: hole, moleEl: mole, isUp: false, timer: null });
   }
 }
 
@@ -67,83 +69,89 @@ function randomHole() {
   return availableHoles[idx];
 }
 
-// 2. Chuột thò đầu lên (Màu trung tính)
+// 2. Chuột thò đầu lên
 function peep() {
   if (!isGameActive) return;
 
   const holeObj = randomHole();
-  if (!holeObj) {
-    setTimeout(peep, 200);
-    return;
-  }
+  if (!holeObj) return;
 
-  // Tốc độ thò lên lặn xuống ngẫu nhiên từ 0.7s đến 1.3s
-  const time = randomTime(700, 1300);
-
-  // Tỉ lệ: 60% là Mục tiêu (Targets), 40% là Chim mồi (Decoys)
+  const time = randomTime(1000, 2000);
   const isTarget = Math.random() > 0.4;
 
   holeObj.isUp = true;
-  // Xóa class cũ, gán class Neutral (Xanh dương) cho mọi con để che mắt
   holeObj.moleEl.className = "mole neutral up";
   holeObj.moleEl.dataset.type = isTarget ? "target" : "decoy";
 
-  // Lấy chữ hiển thị
   holeObj.moleEl.textContent = isTarget
     ? GAME_DATA.targets[Math.floor(Math.random() * GAME_DATA.targets.length)]
     : GAME_DATA.decoys[Math.floor(Math.random() * GAME_DATA.decoys.length)];
 
-  // Hết giờ tự động tụt xuống nếu không bị đập
-  const timerId = setTimeout(() => {
+  // Lưu timer để hủy lệnh nếu bị đập sớm
+  holeObj.timer = setTimeout(() => {
     holeObj.moleEl.classList.remove("up");
-    holeObj.isUp = false;
-    if (isGameActive) peep();
-  }, time);
 
-  moleTimers.push(timerId);
+    // Đợi chuột tụt hẳn rồi mới mở khóa hố
+    setTimeout(() => {
+      holeObj.isUp = false;
+    }, 300);
+  }, time);
 }
 
 // 3. Xử lý logic khi ĐẬP
 function whack(mole) {
   const holeObj = holes.find((h) => h.moleEl === mole);
-  if (holeObj) holeObj.isUp = false;
+  if (!holeObj) return;
+
+  // Hủy lệnh tự động tụt xuống
+  clearTimeout(holeObj.timer);
+  mole.classList.remove("up");
+
+  // Đợi chuột tụt hẳn rồi mới mở khóa hố (tránh lỗi hiện chữ mới khi chuột chưa kịp lặn)
+  setTimeout(() => {
+    holeObj.isUp = false;
+  }, 300);
 
   const type = mole.dataset.type;
 
   if (type === "target") {
-    // ĐẬP ĐÚNG MÃ ĐỘC -> +10 Điểm, nháy Xanh Lá
+    // ĐẬP ĐÚNG -> Cộng điểm
     score += 10;
     mole.className = "mole whacked-correct";
     whackBoard.style.boxShadow = "0 0 30px rgba(34, 197, 94, 0.4)";
     setTimeout(() => (whackBoard.style.boxShadow = "none"), 150);
   } else {
-    // ĐẬP NHẦM ĐỒ NHÀ -> -15 Điểm, nháy Đỏ
-    score -= 15;
-    if (score < 0) score = 0;
+    // ĐẬP SAI -> KHÔNG TRỪ ĐIỂM, chỉ nháy Đỏ cảnh cáo
     mole.className = "mole whacked-wrong";
     whackBoard.style.boxShadow = "0 0 50px rgba(239, 68, 68, 0.8)";
     setTimeout(() => (whackBoard.style.boxShadow = "none"), 300);
   }
 
-  scoreDisplay.textContent = `Điểm: ${score}`;
+  scoreDisplay.textContent = `Điểm: ${score} / ${TARGET_SCORE}`;
+
+  if (score >= TARGET_SCORE) {
+    endGame(
+      true,
+      `Tuyệt vời! Bạn đã đạt ${TARGET_SCORE} điểm và tiêu diệt sạch mã độc!`,
+    );
+  }
 }
 
-// 4. Bắt đầu đếm ngược
+// 4. Bắt đầu game
 function startGame() {
   score = 0;
   timeLeft = 45;
-  scoreDisplay.textContent = `Điểm: 0`;
+  scoreDisplay.textContent = `Điểm: 0 / ${TARGET_SCORE}`;
   timerDisplay.textContent = `00:45`;
   isGameActive = true;
 
-  // Hiển thị câu hỏi nhiệm vụ
   questionBox.classList.remove("hidden");
   questionText.textContent = GAME_DATA.question;
 
-  // Gọi 3 con trồi lên liên tục để gây lú
-  peep();
-  setTimeout(peep, 400);
-  setTimeout(peep, 800);
+  // BỘ SINH CHUỘT: Tốc độ cao (mỗi 600ms sinh 1 con)
+  spawnerInterval = setInterval(() => {
+    if (isGameActive) peep();
+  }, 600);
 
   gameInterval = setInterval(() => {
     timeLeft--;
@@ -152,24 +160,27 @@ function startGame() {
 
     if (timeLeft <= 10 && timeLeft > 0) timerDisplay.classList.add("warning");
 
-    if (timeLeft <= 0) endGame();
+    if (timeLeft <= 0) {
+      endGame(false, `Hết giờ! Bạn chỉ đạt ${score}/${TARGET_SCORE} điểm.`);
+    }
   }, 1000);
 }
 
 // 5. Kết thúc game
-function endGame() {
+function endGame(isWin, msg) {
   isGameActive = false;
   clearInterval(gameInterval);
+  clearInterval(spawnerInterval);
   timerDisplay.classList.remove("warning");
 
-  moleTimers.forEach((id) => clearTimeout(id));
   holes.forEach((h) => {
+    clearTimeout(h.timer);
     h.moleEl.classList.remove("up");
     h.isUp = false;
   });
 
-  statusMsg.textContent = `Hết giờ! Nhiệm vụ hoàn tất với ${score} điểm.`;
-  statusMsg.className = "feedback-box success";
+  statusMsg.textContent = msg;
+  statusMsg.className = `feedback-box ${isWin ? "success" : "error"}`;
   statusMsg.classList.remove("hidden");
   finishBtn.style.display = "block";
 
