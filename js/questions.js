@@ -78,6 +78,8 @@ function handleTileAction(tile) {
     window.location.href = `mg20.html`;
   } else if (id === 21) {
     window.location.href = `mg21.html`; // <--- KHỐI DỮ LIỆU (BLOXORZ)
+  } else if (id === 22) {
+    window.location.href = `mg22.html`; // <--- TRÙM CUỐI: BLOCK BLAST
   } else {
     alert(`Mini-game ${id} đang được xây dựng!`);
   }

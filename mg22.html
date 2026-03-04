@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini-game 22 — Memory Defrag</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mg22.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="frame glass-frame">
+        <header class="mg-header">
+          <div class="header-info">
+            <div class="q-badge">FINAL GAME : 22</div>
+            <h1>Memory Defrag</h1>
+            <p>
+              Kéo thả khối dữ liệu vào lưới. Vượt qua các mốc 500, 1000 và đạt
+              1500 điểm để Phá đảo!
+            </p>
+          </div>
+          <div class="header-right">
+            <a class="btn-ghost" href="questions.html">← Abort</a>
+          </div>
+        </header>
+
+        <main class="mg-container">
+          <div class="game-layout">
+            <div class="score-panel">
+              <div class="score-box">
+                <div class="score-title">
+                  <i class="fas fa-crown" style="color: #fbbf24"></i> Điểm
+                </div>
+                <div id="scoreDisplay" class="score-value">0</div>
+              </div>
+              <div id="targetBox" class="score-box target-box">
+                <div class="score-title">Mục tiêu tiếp theo</div>
+                <div id="targetDisplay" class="score-value">500</div>
+              </div>
+            </div>
+
+            <div class="board-wrapper">
+              <div id="grid" class="grid-board"></div>
+              <div id="overlay" class="overlay hidden">
+                <h2 id="overlayTitle">Kết quả</h2>
+                <p
+                  id="finalScore"
+                  style="color: white; font-size: 20px; margin-top: 10px"
+                ></p>
+                <button
+                  id="retryBtn"
+                  class="btn-secondary"
+                  style="display: none; margin-top: 20px"
+                >
+                  <i class="fas fa-redo"></i> Thử Lại
+                </button>
+              </div>
+            </div>
+
+            <div id="tray" class="tray-container"></div>
+          </div>
+        </main>
+
+        <footer class="mg-footer">
+          <div id="statusMessage" class="feedback-box hidden"></div>
+          <button id="finishBtn" class="btn-primary" style="display: none">
+            Hoàn Tất Chiến Dịch!
+          </button>
+        </footer>
+      </div>
+    </div>
+    <script src="js/mg22.js"></script>
+  </body>
+</html>

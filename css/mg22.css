@@ -1,0 +1,237 @@
+.page {
+  overflow: hidden;
+  user-select: none;
+}
+.mg-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+.mg-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* BỐ CỤC 3 CỘT */
+.game-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* BẢNG ĐIỂM (BÊN TRÁI) */
+.score-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 150px;
+}
+.score-box {
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 12px;
+  padding: 15px 25px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+.score-box.target-box {
+  background: #0f172a;
+  border-color: #1e293b;
+  opacity: 0.9;
+}
+.score-title {
+  font-size: 14px;
+  color: #94a3b8;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.score-value {
+  font-size: 36px;
+  color: #fff;
+  font-weight: 900;
+  transition: transform 0.2s;
+}
+
+/* Hiệu ứng chớp sáng khi qua Mốc Điểm */
+@keyframes milestoneGlow {
+  0% {
+    box-shadow: 0 0 0 #fbbf24;
+    transform: scale(1);
+    border-color: #1e293b;
+  }
+  50% {
+    box-shadow: 0 0 30px #fbbf24;
+    transform: scale(1.1);
+    background: #78350f;
+    border-color: #fbbf24;
+  }
+  100% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transform: scale(1);
+    border-color: #1e293b;
+  }
+}
+.milestone-reached {
+  animation: milestoneGlow 1s ease-out;
+}
+
+/* LƯỚI 8x8 (Ở GIỮA) */
+.board-wrapper {
+  position: relative;
+}
+.grid-board {
+  display: grid;
+  grid-template-columns: repeat(8, 45px);
+  grid-template-rows: repeat(8, 45px);
+  gap: 2px;
+  background: #1a1f35;
+  padding: 6px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.cell {
+  width: 45px;
+  height: 45px;
+  background: #252b43;
+  border-radius: 3px;
+  transition: transform 0.1s;
+}
+
+/* KHỐI ĐẶC 3D */
+.cell.filled,
+.shape-block:not(.empty) {
+  border-radius: 4px;
+  box-shadow:
+    inset 3px 3px 6px rgba(255, 255, 255, 0.45),
+    inset -3px -3px 6px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+@keyframes blast {
+  0% {
+    transform: scale(1);
+    background: #fff;
+    box-shadow: 0 0 20px #fff;
+    z-index: 10;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+.cell.blasting {
+  animation: blast 0.3s ease-out forwards;
+}
+
+.cell.preview {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: none !important;
+  border: 2px dashed rgba(255, 255, 255, 0.6);
+}
+
+/* KHAY CHỨA 3 KHỐI (BÊN PHẢI) */
+.tray-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+}
+.tray-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  min-height: 100px;
+}
+
+.shape {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: grab;
+  touch-action: none;
+}
+.shape-row {
+  display: flex;
+  gap: 2px;
+}
+
+.tray-slot .shape-block {
+  width: 25px;
+  height: 25px;
+}
+.shape-block.empty {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+}
+
+.shape.dragging {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1000;
+  transform: translate(-50%, -50%);
+  opacity: 0.95;
+  filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.5));
+}
+.shape.dragging .shape-block {
+  width: 45px;
+  height: 45px;
+}
+.shape.dragging-disabled {
+  opacity: 0.3;
+  filter: grayscale(1);
+  cursor: not-allowed;
+}
+
+/* Overlay Kết quả */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+.overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.overlay h2 {
+  font-size: 36px;
+  margin: 0;
+  text-align: center;
+}
+
+.mg-footer {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 40px;
+}
