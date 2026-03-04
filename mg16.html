@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini-game 16 — Sentence Unjumble</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mg16.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="frame glass-frame">
+        <header class="mg-header">
+          <div class="header-info">
+            <div class="q-badge">MINI-GAME 16</div>
+            <h1>Data Reassembly</h1>
+            <p>
+              Thông điệp đã bị xáo trộn! Hãy kéo thả các mảnh ghép để sắp xếp
+              lại thành một câu hoàn chỉnh.
+            </p>
+          </div>
+          <a class="btn-ghost" href="questions.html">← Abort</a>
+        </header>
+
+        <main class="mg-container">
+          <div id="startOverlay" class="start-overlay">
+            <button
+              id="startBtn"
+              class="btn-primary"
+              style="font-size: 22px; padding: 16px 36px"
+            >
+              ▶ BẮT ĐẦU LẮP RÁP
+            </button>
+          </div>
+
+          <div class="sentence-board">
+            <div class="sentence-container" id="sentenceContainer"></div>
+          </div>
+        </main>
+
+        <footer class="mg-footer">
+          <div id="statusMessage" class="feedback-box hidden"></div>
+          <button id="finishBtn" class="btn-primary" style="display: none">
+            Return to Board
+          </button>
+        </footer>
+      </div>
+    </div>
+
+    <script src="js/mg16.js"></script>
+  </body>
+</html>
