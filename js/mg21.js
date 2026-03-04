@@ -313,14 +313,14 @@ window.addEventListener("keydown", (e) => {
     case "w":
     case "W":
       e.preventDefault();
-      moveBlock("RIGHT"); // Mũi tên lên -> Đi lên (Tăng Y âm)
+      moveBlock("LEFT"); // Mũi tên lên -> Đi lên (Tăng Y âm)
       break;
 
     case "ArrowDown":
     case "s":
     case "S":
       e.preventDefault();
-      moveBlock("LEFT"); // Mũi tên xuống -> Lùi/Đi xuống (Tăng Y dương)
+      moveBlock("RIGHT"); // Mũi tên xuống -> Lùi/Đi xuống (Tăng Y dương)
       break;
 
     case "ArrowLeft":
