@@ -109,8 +109,11 @@ body {
 /* Grid: auto-fit để không bao giờ bị cắt cột */
 .q-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  /* Ép đúng 7 cột, mỗi ô 100px. 3 hàng x 7 cột = 21 ô hoàn hảo */
+  grid-template-columns: repeat(7, 100px);
   gap: 16px;
+  justify-content: center; /* Căn giữa cả bảng */
+  margin: 0 auto;
 }
 
 /* =======================================================

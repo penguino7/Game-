@@ -4,7 +4,7 @@ const qGrid = document.getElementById("qGrid");
 const DATA =
   typeof QUESTION_META !== "undefined" && Array.isArray(QUESTION_META)
     ? QUESTION_META
-    : Array.from({ length: 22 }, (_, i) => ({ id: i + 1 }));
+    : Array.from({ length: 21 }, (_, i) => ({ id: i + 1 }));
 
 function pad2(n) {
   return String(n).padStart(2, "0");
