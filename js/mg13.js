@@ -82,7 +82,7 @@ startBtn.addEventListener("click", () => {
   }, 1000);
 
   // Sinh ra vật thể liên tục mỗi 0.7 giây
-  spawnInterval = setInterval(spawnItem, 350);
+  spawnInterval = setInterval(spawnItem, 400);
 });
 
 // 2. Hàm tạo vật thể bay
