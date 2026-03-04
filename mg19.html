@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini-game 19 — Cipher Grid</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mg19.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="frame glass-frame">
+        <header class="mg-header">
+          <div class="header-info">
+            <div class="q-badge">MINI-GAME 19</div>
+            <h1>The Cipher Grid</h1>
+            <p>Tìm các từ khóa bảo mật ẩn trong lưới mật mã!</p>
+          </div>
+          <div class="header-right">
+            <a class="btn-ghost" href="questions.html">← Abort</a>
+          </div>
+        </header>
+
+        <main class="mg-container">
+          <div class="puzzle-wrapper">
+            <div class="controls">
+              <button id="hintBtn" class="btn-primary">💡 Gợi ý vị trí</button>
+            </div>
+            <div class="puzzle-area">
+              <div id="wordGrid" class="word-grid"></div>
+              <div id="wordList" class="word-list"></div>
+            </div>
+          </div>
+        </main>
+
+        <footer class="mg-footer">
+          <div id="statusMessage" class="feedback-box hidden"></div>
+          <button id="finishBtn" class="btn-primary" style="display: none">
+            Return to Board
+          </button>
+        </footer>
+      </div>
+    </div>
+    <script src="js/mg19.js"></script>
+  </body>
+</html>
