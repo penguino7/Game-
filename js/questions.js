@@ -53,15 +53,17 @@ function handleTileAction(tile) {
   }
 
   // ĐIỀU HƯỚNG THÔNG MINH (ROUTING)
+  // ĐIỀU HƯỚNG THÔNG MINH (ROUTING)
   if (id <= 10) {
     window.location.href = `qna.html?id=${id}`;
   } else if (id === 11) {
     window.location.href = `mg11.html`;
   } else if (id === 12) {
-    // Thêm dòng này cho câu 12
     window.location.href = `mg12.html`;
+  } else if (id === 13) {
+    window.location.href = `mg13.html`; // <--- Thêm dòng này
   } else {
-    alert(`Mini-game ${id} đang được xây dựng! Chúng ta sẽ sớm hoàn thiện nó.`);
+    alert(`Mini-game ${id} đang được xây dựng!`);
   }
 }
 
