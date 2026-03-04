@@ -11,11 +11,39 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 /* =========================================
-   BẢNG CHỨA CÂU
+   KHU VỰC CÂU HỎI (QUESTION BOX)
+========================================= */
+.question-box {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(30, 41, 59, 0.8);
+  border-left: 5px solid #3b82f6;
+  padding: 20px 24px;
+  border-radius: 8px;
+  margin-bottom: 25px; /* Tạo khoảng cách với bảng xếp chữ */
+  font-size: 22px;
+  line-height: 1.5;
+  font-weight: 500;
+  color: #f8fafc;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  z-index: 10;
+}
+
+.q-label {
+  color: #3b82f6;
+  font-weight: 900;
+  font-size: 24px;
+}
+
+/* =========================================
+   BẢNG CHỨA CÂU & MẢNH GHÉP
 ========================================= */
 .sentence-board {
   width: 100%;
@@ -32,15 +60,12 @@
 
 .sentence-container {
   display: flex;
-  flex-wrap: wrap; /* Cho phép rớt dòng nếu câu quá dài */
+  flex-wrap: wrap;
   gap: 16px;
   justify-content: center;
   width: 100%;
 }
 
-/* =========================================
-   MẢNH GHÉP (DRAGGABLE WORDS)
-========================================= */
 .word-block {
   background: linear-gradient(135deg, #1e293b, #0f172a);
   border: 2px solid #3b82f6;
@@ -57,9 +82,8 @@
     background 0.2s ease;
 }
 
-/* Hiệu ứng khi đang được cầm kéo đi */
 .word-block.dragging {
-  opacity: 0.4; /* Làm mờ khối gốc để người chơi biết đang cầm khối nào */
+  opacity: 0.4;
   transform: scale(1.05);
   border-color: #ef4444;
 }
@@ -68,14 +92,13 @@
   cursor: grabbing;
 }
 
-/* Trạng thái khi sắp xếp đúng toàn bộ câu */
 .word-block.correct {
   background: linear-gradient(135deg, #166534, #14532d);
   border-color: #4ade80;
   color: #86efac;
   cursor: default;
   transform: none;
-  pointer-events: none; /* Khóa lại không cho kéo nữa */
+  pointer-events: none;
 }
 
 /* =========================================

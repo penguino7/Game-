@@ -1,19 +1,30 @@
 const sentenceContainer = document.getElementById("sentenceContainer");
+const questionText = document.getElementById("questionText"); // Trỏ đến ô câu hỏi
 const startBtn = document.getElementById("startBtn");
 const startOverlay = document.getElementById("startOverlay");
 const statusMsg = document.getElementById("statusMessage");
 const finishBtn = document.getElementById("finishBtn");
 
-// Câu gốc hoàn chỉnh (Cậu có thể thay đổi câu khác ở đây)
-const CORRECT_SENTENCE = [
-  "Tường lửa",
-  "ứng dụng",
-  "web",
-  "giúp",
-  "ngăn chặn",
-  "tấn công",
-  "XSS.",
-];
+// =========================================
+// DATA: CÂU HỎI VÀ ĐÁP ÁN (Được băm nhỏ)
+// =========================================
+const GAME_DATA = {
+  question:
+    "Đâu là định nghĩa chính xác nhất về lỗ hổng Cross-Site Scripting (XSS)?",
+  answer: [
+    "XSS",
+    "là",
+    "lỗ hổng",
+    "cho phép",
+    "kẻ tấn công",
+    "chèn",
+    "mã độc",
+    "vào",
+    "trang web",
+    "của",
+    "người dùng.",
+  ],
+};
 
 let isGameOver = false;
 
@@ -22,11 +33,14 @@ function initGame() {
   sentenceContainer.innerHTML = "";
   isGameOver = false;
 
-  // Xáo trộn mảng nhưng phải đảm bảo nó KHÔNG vô tình bị xếp đúng ngay từ đầu
+  // Hiển thị câu hỏi lên giao diện
+  questionText.textContent = GAME_DATA.question;
+
+  // Xáo trộn mảng đáp án (Đảm bảo không vô tình đúng ngay từ đầu)
   let shuffled;
   do {
-    shuffled = [...CORRECT_SENTENCE].sort(() => Math.random() - 0.5);
-  } while (shuffled.join(" ") === CORRECT_SENTENCE.join(" "));
+    shuffled = [...GAME_DATA.answer].sort(() => Math.random() - 0.5);
+  } while (shuffled.join(" ") === GAME_DATA.answer.join(" "));
 
   // Tạo các khối chữ
   shuffled.forEach((word) => {
@@ -36,12 +50,11 @@ function initGame() {
     block.draggable = true;
     sentenceContainer.appendChild(block);
 
-    // Kích hoạt tính năng kéo thả
-    addDragEvents(block);
+    addDragEvents(block); // Kích hoạt kéo thả
   });
 }
 
-// 2. Logic Kéo Thả (Drag & Drop) thông minh
+// 2. Logic Kéo Thả (Drag & Drop)
 function addDragEvents(item) {
   item.addEventListener("dragstart", () => {
     if (isGameOver) return;
@@ -51,19 +64,18 @@ function addDragEvents(item) {
   item.addEventListener("dragend", () => {
     if (isGameOver) return;
     item.classList.remove("dragging");
-    checkWin(); // Kiểm tra kết quả mỗi khi nhả chuột
+    checkWin(); // Xếp xong 1 từ là check xem đã trúng mánh chưa
   });
 }
 
-// Bắt sự kiện trên vùng chứa (Bảng)
+// Tính toán vị trí chèn
 sentenceContainer.addEventListener("dragover", (e) => {
-  e.preventDefault(); // Cho phép thả
+  e.preventDefault();
   if (isGameOver) return;
 
   const draggingItem = document.querySelector(".dragging");
   if (!draggingItem) return;
 
-  // Tìm phần tử nằm ngay sau vị trí chuột hiện tại
   const afterElement = getDragAfterElement(
     sentenceContainer,
     e.clientX,
@@ -71,15 +83,12 @@ sentenceContainer.addEventListener("dragover", (e) => {
   );
 
   if (afterElement == null) {
-    // Nếu chuột ở cuối cùng -> Nhét vào cuối
     sentenceContainer.appendChild(draggingItem);
   } else {
-    // Nếu chuột chen vào giữa -> Chèn lên trước phần tử đó
     sentenceContainer.insertBefore(draggingItem, afterElement);
   }
 });
 
-// Hàm tính toán vị trí chuột so với các khối chữ
 function getDragAfterElement(container, x, y) {
   const draggableElements = [
     ...container.querySelectorAll(".word-block:not(.dragging)"),
@@ -88,11 +97,10 @@ function getDragAfterElement(container, x, y) {
   return draggableElements.reduce(
     (closest, child) => {
       const box = child.getBoundingClientRect();
-      // Tính khoảng cách từ chuột đến tâm của khối chữ
       const offsetX = x - box.left - box.width / 2;
       const offsetY = y - box.top - box.height / 2;
 
-      // Tìm phần tử gần nhất mà chuột đang lướt qua phần nửa bên trái của nó
+      // Nếu chuột lướt qua nửa bên trái của một khối thì chèn vào trước khối đó
       if (
         offsetX < 0 &&
         offsetX > closest.offsetX &&
@@ -107,7 +115,7 @@ function getDragAfterElement(container, x, y) {
   ).element;
 }
 
-// 3. Bắt đầu game
+// 3. Nút Start
 startBtn.addEventListener("click", () => {
   startOverlay.classList.add("hidden");
   initGame();
@@ -115,32 +123,29 @@ startBtn.addEventListener("click", () => {
 
 // 4. Kiểm tra Chiến thắng
 function checkWin() {
-  // Lấy danh sách thứ tự các từ hiện tại trên bảng
   const currentOrder = [
     ...sentenceContainer.querySelectorAll(".word-block"),
   ].map((el) => el.textContent);
 
-  // So sánh mảng hiện tại với mảng gốc
-  if (currentOrder.join(" ") === CORRECT_SENTENCE.join(" ")) {
+  // So sánh mảng đang xếp với đáp án gốc
+  if (currentOrder.join(" ") === GAME_DATA.answer.join(" ")) {
     isGameOver = true;
 
-    // Đổi màu toàn bộ sang xanh lá
+    // Xanh lá báo hiệu đúng
     document
       .querySelectorAll(".word-block")
       .forEach((el) => el.classList.add("correct"));
 
     statusMsg.textContent =
-      "Data Reassembled! Thông điệp đã được giải mã chính xác.";
+      "Chính xác! Bạn đã hiểu rõ bản chất của lỗ hổng này.";
     statusMsg.className = "feedback-box success";
     statusMsg.classList.remove("hidden");
     finishBtn.style.display = "block";
 
-    // Lưu trạng thái DONE cho Q16
     let states = JSON.parse(localStorage.getItem("game_states") || "{}");
     states[16] = "DONE";
     localStorage.setItem("game_states", JSON.stringify(states));
   }
 }
 
-// Nút quay lại
 finishBtn.onclick = () => (window.location.href = "questions.html");
