@@ -62,26 +62,34 @@ if (submitBtn) {
 
     submitBtn.disabled = true;
     const buttons = document.querySelectorAll(".opt-btn");
+
+    // Khóa không cho click chọn lại đáp án nữa
     buttons.forEach((b) => (b.style.pointerEvents = "none"));
 
+    // ==========================================
+    // LƯU TRẠNG THÁI "DONE" NGAY LẬP TỨC (DÙ ĐÚNG HAY SAI)
+    // ==========================================
+    let states = JSON.parse(localStorage.getItem("game_states") || "{}");
+    states[currentId] = "DONE";
+    localStorage.setItem("game_states", JSON.stringify(states));
+
+    // Kiểm tra đúng sai để hiển thị màu sắc và thông báo
     if (selectedOptionIdx === questionData.correctIdx) {
       buttons[selectedOptionIdx].classList.add("correct");
       feedbackBox.textContent = "Access Granted! Payload successful.";
       feedbackBox.className = "feedback-box success";
-      feedbackBox.classList.remove("hidden");
-
-      // Lưu vào localStorage
-      let states = JSON.parse(localStorage.getItem("game_states") || "{}");
-      states[currentId] = "DONE";
-      localStorage.setItem("game_states", JSON.stringify(states));
     } else {
       buttons[selectedOptionIdx].classList.add("wrong");
+      // Hiển thị luôn đáp án đúng cho khán giả xem
       buttons[questionData.correctIdx].classList.add("correct");
       feedbackBox.textContent = "Access Denied! Payload failed.";
       feedbackBox.className = "feedback-box error";
-      feedbackBox.classList.remove("hidden");
     }
 
+    // Bỏ ẩn hộp thông báo
+    feedbackBox.classList.remove("hidden");
+
+    // Đổi nút Submit thành nút quay lại bảng sau 1.5 giây để khán giả kịp nhìn đáp án
     setTimeout(() => {
       submitBtn.textContent = "Return to Board";
       submitBtn.disabled = false;
