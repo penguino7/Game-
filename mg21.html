@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini-game 21 — Crypto Block</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mg21.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="frame glass-frame">
+        <header class="mg-header">
+          <div class="header-info">
+            <div class="q-badge">MINI-GAME 21</div>
+            <h1>Crypto Block 3D</h1>
+            <p>
+              Lăn khối Cam đứng thẳng vào lỗ Đích. Trả lời đúng câu hỏi bảo mật
+              để qua bài!
+            </p>
+          </div>
+          <div class="header-right">
+            <a class="btn-ghost" href="questions.html">← Abort</a>
+          </div>
+        </header>
+
+        <main class="mg-container">
+          <div class="game-stats">
+            <div class="stat-pill">
+              Level: <span id="levelDisplay">1/3</span>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper" id="canvasContainer">
+            <canvas id="gameCanvas" width="800" height="520"></canvas>
+
+            <div id="overlay" class="overlay hidden">
+              <h2 id="overlayTitle">Kết quả</h2>
+
+              <div id="questionBox" class="hidden">
+                <p id="questionText"></p>
+                <div id="answersContainer" class="answers-grid"></div>
+              </div>
+
+              <button
+                id="nextLevelBtn"
+                class="btn-primary"
+                style="display: none; margin-top: 20px"
+              >
+                Vòng tiếp theo <i class="fas fa-arrow-right"></i>
+              </button>
+              <button
+                id="retryBtn"
+                class="btn-secondary"
+                style="display: none; margin-top: 15px"
+              >
+                <i class="fas fa-redo"></i> Thử Lại
+              </button>
+            </div>
+          </div>
+
+          <div class="controls-hint">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <span
+                ><i class="fas fa-keyboard"></i> Dùng <b>Mũi tên</b> hoặc
+                <b>W A S D</b> để lăn khối.</span
+              >
+              <button
+                id="hintBtn"
+                class="btn-primary"
+                style="padding: 8px 15px; font-size: 15px"
+              >
+                <i class="fas fa-magic"></i> Tự Động Giải (Hint)
+              </button>
+            </div>
+            <div
+              id="hintText"
+              style="
+                margin-top: 10px;
+                color: #fbbf24;
+                font-weight: bold;
+                display: none;
+              "
+            ></div>
+          </div>
+        </main>
+
+        <footer class="mg-footer">
+          <div id="statusMessage" class="feedback-box hidden"></div>
+          <button id="finishBtn" class="btn-primary" style="display: none">
+            Return to Board
+          </button>
+        </footer>
+      </div>
+    </div>
+    <script src="js/mg21.js"></script>
+  </body>
+</html>

@@ -5,7 +5,7 @@ const finishBtn = document.getElementById("finishBtn");
 const hintBtn = document.getElementById("hintBtn");
 
 const WORDS = ["TROJAN", "WORM", "FIREWALL", "VPN", "PHISHING"];
-const GRID_SIZE = 10;
+const GRID_SIZE = 8;
 let grid = Array(GRID_SIZE)
   .fill(null)
   .map(() => Array(GRID_SIZE).fill(""));
@@ -13,14 +13,13 @@ let foundWords = [];
 let wordPositions = [];
 let isSelecting = false;
 let selectedCells = [];
+let isHinting = false; // Biến chống spam nút Hint
 
 function initGame() {
-  // 1. Random chữ
   for (let i = 0; i < GRID_SIZE; i++)
     for (let j = 0; j < GRID_SIZE; j++)
       grid[i][j] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
 
-  // 2. Chèn từ
   WORDS.forEach((word) => {
     let placed = false;
     while (!placed) {
@@ -81,50 +80,73 @@ function render() {
   window.addEventListener("pointerup", endSelect);
 }
 
-// Hint button logic
+// LOGIC GỢI Ý (ĐÃ FIX LỖI VÀ THÊM HIỆU ỨNG NHÁY VÀNG)
 hintBtn.onclick = () => {
+  if (isHinting) return; // Nếu đang chạy hiệu ứng thì không cho bấm tiếp
+
   let unfound = wordPositions.filter((wp) => !foundWords.includes(wp.word));
+
   if (unfound.length > 0) {
+    isHinting = true;
     unfound[0].coords.forEach((pos) => {
       const cell = document.querySelector(
         `[data-r="${pos.r}"][data-c="${pos.c}"]`,
       );
-      cell.classList.add("selected");
-      setTimeout(() => cell.classList.remove("selected"), 1000);
+      if (cell && !cell.classList.contains("found")) {
+        cell.classList.add("hint-pulse");
+        // Xóa hiệu ứng sau 1.5s
+        setTimeout(() => cell.classList.remove("hint-pulse"), 1500);
+      }
     });
+
+    // Mở khóa nút Hint sau 1.5s
+    setTimeout(() => {
+      isHinting = false;
+    }, 1500);
   }
 };
 
 function startSelect(e) {
+  if (e.button !== 0 && e.type !== "touchstart") return; // Chỉ nhận chuột trái
   isSelecting = true;
   selectedCells = [];
   selectCell(e.target);
 }
+
 function moveSelect(e) {
   if (isSelecting) selectCell(e.target);
 }
+
 function selectCell(cell) {
-  if (!selectedCells.includes(cell)) {
+  if (!selectedCells.includes(cell) && !cell.classList.contains("found")) {
     cell.classList.add("selected");
     selectedCells.push(cell);
   }
 }
 
 function endSelect() {
+  if (!isSelecting) return;
   isSelecting = false;
+
   let word = selectedCells.map((c) => c.textContent).join("");
   let reversed = word.split("").reverse().join("");
 
-  if (WORDS.includes(word) || WORDS.includes(reversed)) {
-    let w = WORDS.includes(word) ? word : reversed;
-    if (!foundWords.includes(w)) {
-      foundWords.push(w);
-      selectedCells.forEach((c) => c.classList.add("found"));
-      document.getElementById("word-" + w).classList.add("found");
-      if (foundWords.length === WORDS.length) victory();
-    }
+  // FIX LỖI: Luôn lấy từ GỐC để so sánh với mảng Hint
+  let originalWord = WORDS.find((w) => w === word || w === reversed);
+
+  if (originalWord && !foundWords.includes(originalWord)) {
+    foundWords.push(originalWord);
+    selectedCells.forEach((c) => {
+      c.classList.remove("selected", "hint-pulse"); // Xóa cả class hint nếu đang chạy
+      c.classList.add("found");
+    });
+    document.getElementById("word-" + originalWord).classList.add("found");
+
+    if (foundWords.length === WORDS.length) victory();
+  } else {
+    // Trả lại màu cũ nếu chọn sai
+    selectedCells.forEach((c) => c.classList.remove("selected"));
   }
-  selectedCells.forEach((c) => c.classList.remove("selected"));
   selectedCells = [];
 }
 

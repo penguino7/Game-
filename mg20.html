@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini-game 20 — Cyber Router</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mg20.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="frame glass-frame">
+        <header class="mg-header">
+          <div class="header-info">
+            <div class="q-badge">MINI-GAME 20</div>
+            <h1>Cyber Router</h1>
+            <p>
+              Vẽ đường truyền an toàn từ Client đến Server. Né các mối đe dọa!
+            </p>
+          </div>
+          <div class="header-right">
+            <a class="btn-ghost" href="questions.html">← Abort</a>
+          </div>
+        </header>
+
+        <main class="mg-container">
+          <div class="game-stats">
+            <div class="stat-pill">
+              Level: <span id="levelDisplay">1/2</span>
+            </div>
+            <div class="stat-pill">Điểm: <span id="scoreDisplay">0</span></div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <canvas id="gameCanvas" width="800" height="420"></canvas>
+
+            <div id="overlay" class="overlay hidden">
+              <h2 id="overlayTitle">Kết quả</h2>
+              <button
+                id="nextLevelBtn"
+                class="btn-primary"
+                style="display: none; margin-top: 20px"
+              >
+                Bài tiếp theo <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="controls-bar">
+            <button id="clearBtn" class="btn-secondary">
+              <i class="fas fa-eraser"></i> Vẽ Lại
+            </button>
+            <button
+              id="startBtn"
+              class="btn-primary"
+              style="background: #22c55e; border-color: #16a34a"
+            >
+              ▶ TRUYỀN DỮ LIỆU
+            </button>
+          </div>
+        </main>
+
+        <footer class="mg-footer">
+          <div id="statusMessage" class="feedback-box hidden"></div>
+          <button id="finishBtn" class="btn-primary" style="display: none">
+            Return to Board
+          </button>
+        </footer>
+      </div>
+    </div>
+    <script src="js/mg20.js"></script>
+  </body>
+</html>

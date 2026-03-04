@@ -74,6 +74,10 @@ function handleTileAction(tile) {
     window.location.href = `mg18.html`; // <--- Whack-a-mole
   } else if (id === 19) {
     window.location.href = `mg19.html`; // <--- Cậu thêm dòng này vào nhé!
+  } else if (id === 20) {
+    window.location.href = `mg20.html`;
+  } else if (id === 21) {
+    window.location.href = `mg21.html`; // <--- KHỐI DỮ LIỆU (BLOXORZ)
   } else {
     alert(`Mini-game ${id} đang được xây dựng!`);
   }
