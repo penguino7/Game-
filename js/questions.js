@@ -68,6 +68,8 @@ function handleTileAction(tile) {
     window.location.href = `mg15.html`; // <--- Thêm dòng này
   } else if (id === 16) {
     window.location.href = `mg16.html`; // <--- Thêm dòng này
+  } else if (id === 17) {
+    window.location.href = `mg17.html`; // <--- Mở Maze Chase
   } else {
     alert(`Mini-game ${id} đang được xây dựng!`);
   }
