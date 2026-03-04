@@ -1,9 +1,13 @@
 const memBoard = document.getElementById("memBoard");
 const statusMsg = document.getElementById("statusMessage");
 const finishBtn = document.getElementById("finishBtn");
+const timerDisplay = document.getElementById("timerDisplay");
+
+// Các phần tử cho nút Start
+const startOverlay = document.getElementById("startOverlay");
+const startBtn = document.getElementById("startBtn");
 
 // Bộ dữ liệu 6 cặp (12 thẻ)
-// matchId dùng để nhận diện 2 thẻ là 1 cặp
 const cardData = [
   { text: "XSS", matchId: 1 },
   { text: "Chèn mã độc JS", matchId: 1 },
@@ -20,12 +24,16 @@ const cardData = [
 ];
 
 let hasFlippedCard = false;
-let lockBoard = false;
+// KHÓA BÀN CHƠI NGAY TỪ ĐẦU
+let lockBoard = true;
 let firstCard, secondCard;
 let matchedPairs = 0;
 const totalPairs = 6;
 
-// 1. Hàm trộn mảng (Fisher-Yates Shuffle)
+let timeLeft = 45;
+let timerInterval;
+
+// 1. Hàm trộn mảng
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -34,7 +42,7 @@ function shuffle(array) {
   return array;
 }
 
-// 2. Dàn bài ra bàn chơi
+// 2. Dàn bài ra bàn chơi (nhưng chưa đếm giờ)
 function initGame() {
   const shuffledCards = shuffle([...cardData]);
 
@@ -55,9 +63,56 @@ function initGame() {
   });
 }
 
-// 3. Logic lật thẻ
+// 3. SỰ KIỆN BẤM NÚT START
+startBtn.addEventListener("click", () => {
+  // Ẩn lớp phủ đi
+  startOverlay.classList.add("hidden");
+
+  // Mở khóa bàn chơi
+  lockBoard = false;
+
+  // Bắt đầu đếm ngược
+  startTimer();
+});
+
+// 4. Logic đồng hồ đếm ngược
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timeLeft--;
+
+    const seconds = String(timeLeft).padStart(2, "0");
+    timerDisplay.textContent = `00:${seconds}`;
+
+    if (timeLeft <= 10 && timeLeft > 0) {
+      timerDisplay.classList.add("warning");
+    }
+
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      handleGameOver();
+    }
+  }, 1000);
+}
+
+// Hàm xử lý khi thua (hết thời gian)
+function handleGameOver() {
+  lockBoard = true;
+  timerDisplay.textContent = "00:00";
+  timerDisplay.classList.remove("warning");
+
+  statusMsg.textContent =
+    "Time's up! Kết nối đã bị ngắt do vượt quá thời gian.";
+  statusMsg.className = "feedback-box error";
+  statusMsg.classList.remove("hidden");
+  finishBtn.style.display = "block";
+
+  let states = JSON.parse(localStorage.getItem("game_states") || "{}");
+  states[12] = "DONE";
+  localStorage.setItem("game_states", JSON.stringify(states));
+}
+
+// 5. Logic lật thẻ
 function flipCard() {
-  // Khóa bàn khi đang xử lý hoặc click lại thẻ đã lật
   if (lockBoard || this === firstCard || this.classList.contains("matched"))
     return;
 
@@ -73,14 +128,14 @@ function flipCard() {
   checkForMatch();
 }
 
-// 4. Kiểm tra xem 2 thẻ có khớp không
+// 6. Kiểm tra xem 2 thẻ có khớp không
 function checkForMatch() {
   let isMatch = firstCard.dataset.match === secondCard.dataset.match;
 
   if (isMatch) {
-    disableCards(); // Giữ nguyên mặt lật và đổi màu xanh
+    disableCards();
   } else {
-    unflipCards(); // Úp lại nếu sai
+    unflipCards();
   }
 }
 
@@ -96,13 +151,15 @@ function disableCards() {
 
   // Kiểm tra Win Game
   if (matchedPairs === totalPairs) {
+    clearInterval(timerInterval);
+    timerDisplay.classList.remove("warning");
+
     setTimeout(() => {
-      statusMsg.textContent = "Memory Decrypted! Hệ thống đã được mở khóa.";
+      statusMsg.textContent = `Memory Decrypted! Bạn còn dư ${timeLeft} giây.`;
       statusMsg.className = "feedback-box success";
       statusMsg.classList.remove("hidden");
       finishBtn.style.display = "block";
 
-      // Lưu trạng thái DONE cho câu 12
       let states = JSON.parse(localStorage.getItem("game_states") || "{}");
       states[12] = "DONE";
       localStorage.setItem("game_states", JSON.stringify(states));
@@ -111,13 +168,10 @@ function disableCards() {
 }
 
 function unflipCards() {
-  lockBoard = true; // Khóa bàn phím tạm thời
-
-  // Thêm class báo lỗi đỏ (nhìn cho kịch tính)
+  lockBoard = true;
   firstCard.classList.add("wrong");
   secondCard.classList.add("wrong");
 
-  // Đợi 1.2s cho khán giả kịp nhìn chữ rồi mới úp lại
   setTimeout(() => {
     firstCard.classList.remove("flipped", "wrong");
     secondCard.classList.remove("flipped", "wrong");
@@ -135,5 +189,5 @@ finishBtn.addEventListener("click", () => {
   window.location.href = "questions.html";
 });
 
-// Bắt đầu game
+// Chỉ dàn bài ra thôi, chưa đếm giờ
 initGame();
