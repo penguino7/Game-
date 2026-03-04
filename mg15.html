@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini-game 15 — Group Sort</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mg15.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="frame glass-frame">
+        <header class="mg-header">
+          <div class="header-info">
+            <div class="q-badge">MINI-GAME 15</div>
+            <h1>Cyber Classifier</h1>
+            <p>
+              Phân loại các thuật ngữ vào đúng nhóm: Tấn công (Attacks) hoặc
+              Phòng thủ (Defenses).
+            </p>
+          </div>
+          <a class="btn-ghost" href="questions.html">← Abort</a>
+        </header>
+
+        <main class="mg-container">
+          <div class="sort-groups">
+            <div class="sort-bucket attack-zone" data-group="ATTACK">
+              <div class="bucket-icon">☣️</div>
+              <h2>ATTACKS</h2>
+              <div class="count-tag">
+                Items: <span id="countAttack">0</span>
+              </div>
+            </div>
+
+            <div class="sort-bucket defense-zone" data-group="DEFENSE">
+              <div class="bucket-icon">🛡️</div>
+              <h2>DEFENSES</h2>
+              <div class="count-tag">
+                Items: <span id="countDefense">0</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="deck-area">
+            <div id="cardDeck" class="card-deck"></div>
+          </div>
+
+          <div id="startOverlay" class="start-overlay">
+            <button
+              id="startBtn"
+              class="btn-primary"
+              style="font-size: 22px; padding: 16px 36px"
+            >
+              ▶ BẮT ĐẦU PHÂN LOẠI
+            </button>
+          </div>
+        </main>
+
+        <footer class="mg-footer">
+          <div id="statusMessage" class="feedback-box hidden"></div>
+          <button id="finishBtn" class="btn-primary" style="display: none">
+            Return to Board
+          </button>
+        </footer>
+      </div>
+    </div>
+
+    <script src="js/mg15.js"></script>
+  </body>
+</html>
