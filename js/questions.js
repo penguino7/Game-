@@ -54,13 +54,13 @@ function handleTileAction(tile) {
 
   // ĐIỀU HƯỚNG THÔNG MINH (ROUTING)
   if (id <= 10) {
-    // 10 câu đầu tiên trỏ về form Q&A trắc nghiệm
     window.location.href = `qna.html?id=${id}`;
   } else if (id === 11) {
-    // Nếu click vào câu 11 -> Mở thẳng trang Mini-game kéo thả
     window.location.href = `mg11.html`;
+  } else if (id === 12) {
+    // Thêm dòng này cho câu 12
+    window.location.href = `mg12.html`;
   } else {
-    // Các câu từ 12 trở đi vẫn tạm khóa chờ cậu xây dựng tiếp
     alert(`Mini-game ${id} đang được xây dựng! Chúng ta sẽ sớm hoàn thiện nó.`);
   }
 }

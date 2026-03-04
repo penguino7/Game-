@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini-game 12 — Security Challenge</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mg12.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="frame glass-frame">
+        <header class="mg-header">
+          <div class="header-info">
+            <div class="q-badge">MINI-GAME 12</div>
+            <h1>Memory Decrypt</h1>
+            <p>
+              Lật thẻ và tìm 6 cặp Thuật ngữ - Ý nghĩa tương ứng. Thời gian đang
+              đếm ngược!
+            </p>
+          </div>
+          <a class="btn-ghost" href="questions.html">← Abort</a>
+        </header>
+
+        <main class="mg-container">
+          <div class="mem-board" id="memBoard"></div>
+        </main>
+
+        <footer class="mg-footer">
+          <div id="statusMessage" class="feedback-box hidden"></div>
+          <button id="finishBtn" class="btn-primary" style="display: none">
+            Return to Board
+          </button>
+        </footer>
+      </div>
+    </div>
+
+    <script src="js/mg12.js"></script>
+  </body>
+</html>
