@@ -129,3 +129,48 @@
   justify-content: center;
   min-height: 50px;
 }
+.game-controls {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+  width: 100%;
+  max-width: 900px;
+  justify-content: flex-end; /* Đẩy các nút sang góc phải */
+}
+
+.hint-text {
+  margin-top: 15px;
+  padding: 15px 20px;
+  background: rgba(251, 191, 36, 0.1);
+  border-left: 4px solid #fbbf24;
+  color: #fde68a;
+  border-radius: 8px;
+  font-size: 18px;
+  font-style: italic;
+  width: 100%;
+  max-width: 900px;
+}
+
+.hint-text.hidden {
+  display: none;
+}
+
+/* Hiệu ứng rung bần bật khi bấm Kiểm Tra bị sai */
+.board-shake {
+  animation: shakeError 0.4s ease-in-out;
+  border-color: #ef4444 !important; /* Viền bảng chuyển màu đỏ */
+  box-shadow: inset 0 0 40px rgba(239, 68, 68, 0.3) !important;
+}
+
+@keyframes shakeError {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}

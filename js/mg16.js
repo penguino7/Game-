@@ -1,12 +1,19 @@
 const sentenceContainer = document.getElementById("sentenceContainer");
-const questionText = document.getElementById("questionText"); // Trỏ đến ô câu hỏi
+const sentenceBoard = document.getElementById("sentenceBoard");
+const questionText = document.getElementById("questionText");
 const startBtn = document.getElementById("startBtn");
 const startOverlay = document.getElementById("startOverlay");
 const statusMsg = document.getElementById("statusMessage");
 const finishBtn = document.getElementById("finishBtn");
 
+// Các nút mới
+const gameControls = document.getElementById("gameControls");
+const checkBtn = document.getElementById("checkBtn");
+const hintBtn = document.getElementById("hintBtn");
+const hintText = document.getElementById("hintText");
+
 // =========================================
-// DATA: CÂU HỎI VÀ ĐÁP ÁN (Được băm nhỏ)
+// DATA: BỔ SUNG THÊM TRƯỜNG "HINT"
 // =========================================
 const GAME_DATA = {
   question:
@@ -24,6 +31,7 @@ const GAME_DATA = {
     "của",
     "người dùng.",
   ],
+  hint: "Cụm từ bắt đầu bằng 'XSS là...', và hành động chính là 'chèn mã độc' vào một nơi nào đó.",
 };
 
 let isGameOver = false;
@@ -33,16 +41,16 @@ function initGame() {
   sentenceContainer.innerHTML = "";
   isGameOver = false;
 
-  // Hiển thị câu hỏi lên giao diện
+  // Hiện thanh công cụ khi bắt đầu
+  gameControls.style.display = "flex";
+
   questionText.textContent = GAME_DATA.question;
 
-  // Xáo trộn mảng đáp án (Đảm bảo không vô tình đúng ngay từ đầu)
   let shuffled;
   do {
     shuffled = [...GAME_DATA.answer].sort(() => Math.random() - 0.5);
   } while (shuffled.join(" ") === GAME_DATA.answer.join(" "));
 
-  // Tạo các khối chữ
   shuffled.forEach((word) => {
     const block = document.createElement("div");
     block.classList.add("word-block");
@@ -50,25 +58,28 @@ function initGame() {
     block.draggable = true;
     sentenceContainer.appendChild(block);
 
-    addDragEvents(block); // Kích hoạt kéo thả
+    addDragEvents(block);
   });
 }
 
-// 2. Logic Kéo Thả (Drag & Drop)
+// 2. Logic Kéo Thả (Drag & Drop) siêu mượt
 function addDragEvents(item) {
-  item.addEventListener("dragstart", () => {
+  item.addEventListener("dragstart", (e) => {
     if (isGameOver) return;
-    item.classList.add("dragging");
+
+    // Tuyệt chiêu setTimeout 0s: Giúp trình duyệt giữ lại hình ảnh "Bóng" (Ghost) trên chuột,
+    // trong khi phần tử gốc ở dưới bảng sẽ bị làm mờ đi.
+    setTimeout(() => {
+      item.classList.add("dragging");
+    }, 0);
   });
 
   item.addEventListener("dragend", () => {
     if (isGameOver) return;
     item.classList.remove("dragging");
-    checkWin(); // Xếp xong 1 từ là check xem đã trúng mánh chưa
   });
 }
 
-// Tính toán vị trí chèn
 sentenceContainer.addEventListener("dragover", (e) => {
   e.preventDefault();
   if (isGameOver) return;
@@ -89,55 +100,61 @@ sentenceContainer.addEventListener("dragover", (e) => {
   }
 });
 
+// THUẬT TOÁN TÍNH TỌA ĐỘ MỚI (Hỗ trợ xếp nhiều dòng flex-wrap)
 function getDragAfterElement(container, x, y) {
   const draggableElements = [
     ...container.querySelectorAll(".word-block:not(.dragging)"),
   ];
 
-  return draggableElements.reduce(
-    (closest, child) => {
-      const box = child.getBoundingClientRect();
-      const offsetX = x - box.left - box.width / 2;
-      const offsetY = y - box.top - box.height / 2;
+  return draggableElements.find((child) => {
+    const box = child.getBoundingClientRect();
 
-      // Nếu chuột lướt qua nửa bên trái của một khối thì chèn vào trước khối đó
-      if (
-        offsetX < 0 &&
-        offsetX > closest.offsetX &&
-        Math.abs(offsetY) < box.height
-      ) {
-        return { offsetX: offsetX, element: child };
-      } else {
-        return closest;
-      }
-    },
-    { offsetX: Number.NEGATIVE_INFINITY },
-  ).element;
+    // Kiểm tra xem chuột có đang nằm trên cùng 1 hàng với phần tử này không
+    const isSameRow = y >= box.top && y <= box.bottom;
+
+    if (isSameRow) {
+      // Nếu cùng hàng, kiểm tra xem chuột đã vượt qua 50% chiều rộng của thẻ chưa
+      return x < box.left + box.width / 2;
+    }
+
+    // Nếu không cùng hàng, kiểm tra xem chuột có nằm hẳn ở dòng phía trên thẻ này không
+    return y < box.top;
+  });
 }
 
-// 3. Nút Start
+// 3. Xử lý nút chức năng
 startBtn.addEventListener("click", () => {
   startOverlay.classList.add("hidden");
   initGame();
 });
 
-// 4. Kiểm tra Chiến thắng
-function checkWin() {
+// NÚT GỢI Ý
+hintBtn.addEventListener("click", () => {
+  hintText.textContent = `💡 Gợi ý: ${GAME_DATA.hint}`;
+  hintText.classList.remove("hidden");
+});
+
+// NÚT KIỂM TRA ĐÁP ÁN
+checkBtn.addEventListener("click", () => {
+  if (isGameOver) return;
+
   const currentOrder = [
     ...sentenceContainer.querySelectorAll(".word-block"),
   ].map((el) => el.textContent);
 
-  // So sánh mảng đang xếp với đáp án gốc
   if (currentOrder.join(" ") === GAME_DATA.answer.join(" ")) {
+    // NẾU ĐÚNG:
     isGameOver = true;
 
-    // Xanh lá báo hiệu đúng
     document
       .querySelectorAll(".word-block")
       .forEach((el) => el.classList.add("correct"));
 
-    statusMsg.textContent =
-      "Chính xác! Bạn đã hiểu rõ bản chất của lỗ hổng này.";
+    // Ẩn thanh công cụ đi
+    gameControls.style.display = "none";
+    hintText.classList.add("hidden");
+
+    statusMsg.textContent = "Chính xác! Bạn đã xếp đúng câu.";
     statusMsg.className = "feedback-box success";
     statusMsg.classList.remove("hidden");
     finishBtn.style.display = "block";
@@ -145,7 +162,15 @@ function checkWin() {
     let states = JSON.parse(localStorage.getItem("game_states") || "{}");
     states[16] = "DONE";
     localStorage.setItem("game_states", JSON.stringify(states));
+  } else {
+    // NẾU SAI: Rung bảng chữ và nháy đỏ
+    sentenceBoard.classList.add("board-shake");
+
+    // Tắt hiệu ứng sau 400ms để lần sau bấm sai còn rung tiếp
+    setTimeout(() => {
+      sentenceBoard.classList.remove("board-shake");
+    }, 400);
   }
-}
+});
 
 finishBtn.onclick = () => (window.location.href = "questions.html");
