@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini-game 14 — Hangman</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/mg14.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="frame glass-frame">
+        <header class="mg-header">
+          <div class="header-info">
+            <div class="q-badge">MINI-GAME 14</div>
+            <h1>System Decryption</h1>
+            <p>
+              Đoán từng chữ cái để giải mã thuật ngữ. Bạn chỉ được phép sai tối
+              đa 6 lần!
+            </p>
+          </div>
+
+          <div class="header-right">
+            <div class="mistake-pill" id="mistakeDisplay">Lỗi: 0 / 6</div>
+            <a class="btn-ghost" href="questions.html">← Abort</a>
+          </div>
+        </header>
+
+        <main class="mg-container">
+          <div class="hangman-box">
+            <div class="hangman-figure" id="hangmanFigure">
+              <div class="gallows-base"></div>
+              <div class="gallows-pole"></div>
+              <div class="gallows-top"></div>
+              <div class="gallows-rope"></div>
+
+              <div class="part-head figure-part"></div>
+              <div class="part-body figure-part"></div>
+              <div class="part-arm-l figure-part"></div>
+              <div class="part-arm-r figure-part"></div>
+              <div class="part-leg-l figure-part"></div>
+              <div class="part-leg-r figure-part"></div>
+            </div>
+          </div>
+
+          <div class="word-section">
+            <h3 class="hint-text" id="hintDisplay">Gợi ý: Đang tải...</h3>
+            <div class="word-display" id="wordDisplay"></div>
+          </div>
+
+          <div class="keyboard" id="keyboard"></div>
+        </main>
+
+        <footer class="mg-footer">
+          <div id="statusMessage" class="feedback-box hidden"></div>
+          <button id="finishBtn" class="btn-primary" style="display: none">
+            Return to Board
+          </button>
+        </footer>
+      </div>
+    </div>
+
+    <script src="js/mg14.js"></script>
+  </body>
+</html>

@@ -62,6 +62,8 @@ function handleTileAction(tile) {
     window.location.href = `mg12.html`;
   } else if (id === 13) {
     window.location.href = `mg13.html`; // <--- Thêm dòng này
+  } else if (id === 14) {
+    window.location.href = `mg14.html`; // <--- Thêm dòng này
   } else {
     alert(`Mini-game ${id} đang được xây dựng!`);
   }

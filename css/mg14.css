@@ -1,0 +1,244 @@
+.mg-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.mg-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 30px;
+}
+
+/* =========================================
+   HANGMAN FIGURE (VẼ BẰNG CSS)
+========================================= */
+.hangman-box {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.hangman-figure {
+  position: relative;
+  width: 200px;
+  height: 250px;
+  margin: 0 auto;
+}
+
+/* Khung giá treo cổ (Luôn hiện) */
+.gallows-base {
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: 180px;
+  height: 10px;
+  background: #475569;
+  border-radius: 4px;
+}
+.gallows-pole {
+  position: absolute;
+  bottom: 0;
+  left: 40px;
+  width: 10px;
+  height: 250px;
+  background: #475569;
+}
+.gallows-top {
+  position: absolute;
+  top: 0;
+  left: 40px;
+  width: 100px;
+  height: 10px;
+  background: #475569;
+  border-radius: 4px;
+}
+.gallows-rope {
+  position: absolute;
+  top: 10px;
+  left: 130px;
+  width: 6px;
+  height: 30px;
+  background: #ef4444;
+} /* Dây thừng đỏ */
+
+/* Các bộ phận người (Ẩn đi) */
+.figure-part {
+  display: none;
+  position: absolute;
+  background: #94a3b8;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.part-head {
+  top: 40px;
+  left: 113px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 6px solid #94a3b8;
+  background: transparent;
+}
+.part-body {
+  top: 80px;
+  left: 130px;
+  width: 6px;
+  height: 60px;
+}
+.part-arm-l {
+  top: 90px;
+  left: 95px;
+  width: 40px;
+  height: 6px;
+  transform: rotate(30deg);
+}
+.part-arm-r {
+  top: 90px;
+  left: 132px;
+  width: 40px;
+  height: 6px;
+  transform: rotate(-30deg);
+}
+.part-leg-l {
+  top: 135px;
+  left: 105px;
+  width: 35px;
+  height: 6px;
+  transform: rotate(-60deg);
+}
+.part-leg-r {
+  top: 135px;
+  left: 126px;
+  width: 35px;
+  height: 6px;
+  transform: rotate(60deg);
+}
+
+/* Lộ diện từng bộ phận theo số lỗi (mistake-1 đến 6) */
+.mistake-1 .part-head {
+  display: block;
+  border-color: #f8fafc;
+}
+.mistake-2 .part-body {
+  display: block;
+  background: #f8fafc;
+}
+.mistake-3 .part-arm-l {
+  display: block;
+  background: #fca5a5;
+} /* Đỏ dần lên */
+.mistake-4 .part-arm-r {
+  display: block;
+  background: #fca5a5;
+}
+.mistake-5 .part-leg-l {
+  display: block;
+  background: #ef4444;
+}
+.mistake-6 .part-leg-r {
+  display: block;
+  background: #ef4444;
+  box-shadow: 0 0 15px red;
+}
+
+/* =========================================
+   HIỂN THỊ CHỮ (WORD DISPLAY)
+========================================= */
+.word-section {
+  text-align: center;
+}
+.hint-text {
+  color: #93c5fd;
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.word-display {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.letter-box {
+  width: 45px;
+  height: 55px;
+  border-bottom: 4px solid #3b82f6;
+  font-size: 36px;
+  font-weight: 900;
+  color: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+.letter-box.space {
+  border-bottom: none;
+  width: 20px;
+} /* Khoảng trắng giữa các từ */
+
+/* =========================================
+   BÀN PHÍM ẢO (KEYBOARD)
+========================================= */
+.keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  max-width: 600px;
+}
+.key-btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  color: #f8fafc;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.key-btn:hover {
+  background: #3b82f6;
+  border-color: #60a5fa;
+  transform: translateY(-2px);
+}
+.key-btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  transform: none;
+}
+.key-btn.correct {
+  background: #22c55e;
+  border-color: #4ade80;
+  color: #000;
+}
+.key-btn.wrong {
+  background: #ef4444;
+  border-color: #fca5a5;
+  opacity: 0.3;
+}
+
+.mistake-pill {
+  background: rgba(239, 68, 68, 0.15);
+  border: 2px solid #ef4444;
+  color: #f87171;
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 20px;
+}
+.mg-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
