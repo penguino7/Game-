@@ -16,22 +16,33 @@ const hintText = document.getElementById("hintText");
 // DATA: BỔ SUNG THÊM TRƯỜNG "HINT"
 // =========================================
 const GAME_DATA = {
-  question:
-    "Đâu là định nghĩa chính xác nhất về lỗ hổng Cross-Site Scripting (XSS)?",
+  question: "What is the most accurate definition of a firewall in computing?",
   answer: [
-    "XSS",
-    "là",
-    "lỗ hổng",
-    "cho phép",
-    "kẻ tấn công",
-    "chèn",
-    "mã độc",
-    "vào",
-    "trang web",
-    "của",
-    "người dùng.",
+    "In",
+    "computing,",
+    "a",
+    "firewall",
+    "is",
+    "a",
+    "network",
+    "security",
+    "system",
+    "that",
+    "monitors",
+    "and",
+    "controls",
+    "incoming",
+    "and",
+    "outgoing",
+    "network",
+    "traffic",
+    "based",
+    "on",
+    "predetermined",
+    "security",
+    "rules.",
   ],
-  hint: "Cụm từ bắt đầu bằng 'XSS là...', và hành động chính là 'chèn mã độc' vào một nơi nào đó.",
+  hint: "The sentence starts with 'In computing, a firewall is...', and the key actions are 'monitors and controls' network traffic based on 'predetermined security rules'.",
 };
 
 let isGameOver = false;

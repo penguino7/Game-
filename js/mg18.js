@@ -12,8 +12,9 @@ const finishBtn = document.getElementById("finishBtn");
 // DATA VÀ LUẬT CHƠI
 // =========================================
 const GAME_DATA = {
-  question: "🎯 Nhiệm vụ: Đập nát tất cả MÃ ĐỘC để đạt 100 Điểm!",
+  question: "🎯 Mission: Smash all MALWARE to reach 100 Points!",
   targets: [
+    // Malware (hit these)
     "Trojan",
     "Worm",
     "Ransomware",
@@ -21,8 +22,48 @@ const GAME_DATA = {
     "Adware",
     "Rootkit",
     "Botnet",
+    "Keylogger",
+    "Backdoor",
+    "Cryptominer",
+    "Downloader",
+    "Dropper",
+    "Fileless Malware",
+    "Macro Virus",
+    "Polymorphic Virus",
+    "Logic Bomb",
+    "Scareware",
+    "Browser Hijacker",
+    "RAT (Remote Access Trojan)",
+    "Mobile Malware",
+    "Malvertising",
+    "Exploit Kit",
   ],
-  decoys: ["Firewall", "VPN", "Antivirus", "HTTPS", "WAF", "MFA", "Token"],
+  decoys: [
+    // Security / safe terms (do NOT hit)
+    "Firewall",
+    "VPN",
+    "Antivirus",
+    "HTTPS",
+    "WAF",
+    "MFA",
+    "Token",
+    "IDS",
+    "IPS",
+    "EDR",
+    "SIEM",
+    "Zero Trust",
+    "Patch",
+    "Backup",
+    "Encryption",
+    "Access Control",
+    "Least Privilege",
+    "Network Segmentation",
+    "Sandbox",
+    "CAPTCHA",
+    "Password Manager",
+    "Secure Boot",
+    "Biometrics",
+  ],
 };
 
 const TARGET_SCORE = 100;

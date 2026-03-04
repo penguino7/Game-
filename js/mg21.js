@@ -27,8 +27,8 @@ const LEVELS = [
     ],
     start: { x: 1, y: 2 },
     question:
-      "Mã độc tự lây lan qua mạng mà không cần tương tác của người dùng là loại nào?",
-    answers: ["Trojan", "Worm (Sâu máy tính)", "Ransomware", "Spyware"],
+      "Which type of malware can self-replicate and spread over a network without user interaction?",
+    answers: ["Trojan", "Worm", "Ransomware", "Spyware"],
     correct: 1,
   },
   {
@@ -40,10 +40,14 @@ const LEVELS = [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ],
     start: { x: 1, y: 1 },
-    question:
-      "Hình thức giả mạo email/website để lừa người dùng nhập mật khẩu gọi là gì?",
-    answers: ["DDoS", "Man-in-the-middle", "Phishing", "SQL Injection"],
-    correct: 2,
+    uestion: "What is the primary purpose of a firewall in network security?",
+    answers: [
+      "To monitor and control incoming and outgoing network traffic based on security rules",
+      "To physically cool down computer hardware",
+      "To speed up the Internet connection",
+      "To recover deleted files automatically",
+    ],
+    correct: 0,
   },
   {
     board: [
@@ -55,8 +59,13 @@ const LEVELS = [
     ],
     start: { x: 3, y: 0 },
     question:
-      "Giao thức nào tạo đường hầm mã hóa giúp bạn truy cập Internet an toàn?",
-    answers: ["VPN (Virtual Private Network)", "HTTP", "FTP", "DHCP"],
+      "Which statement best describes how a stateful firewall differs from a basic packet-filtering firewall?",
+    answers: [
+      "It tracks the state of active connections and allows traffic based on the context of a session, not just packet headers",
+      "It encrypts all network traffic end-to-end automatically",
+      "It blocks all incoming traffic by default and cannot be configured",
+      "It only scans files for viruses and removes them",
+    ],
     correct: 0,
   },
 ];
@@ -296,22 +305,37 @@ function getBlockTiles(b) {
 }
 
 window.addEventListener("keydown", (e) => {
+  // Chỉ nhận phím khi đang chơi và không trong trạng thái animation
   if (gameState !== "PLAYING" || isAnimating) return;
-  if (["ArrowUp", "w", "W"].includes(e.key)) {
-    e.preventDefault();
-    moveBlock("UP");
-  }
-  if (["ArrowDown", "s", "S"].includes(e.key)) {
-    e.preventDefault();
-    moveBlock("DOWN");
-  }
-  if (["ArrowLeft", "a", "A"].includes(e.key)) {
-    e.preventDefault();
-    moveBlock("LEFT");
-  }
-  if (["ArrowRight", "d", "D"].includes(e.key)) {
-    e.preventDefault();
-    moveBlock("RIGHT");
+
+  switch (e.key) {
+    case "ArrowUp":
+    case "w":
+    case "W":
+      e.preventDefault();
+      moveBlock("RIGHT"); // Mũi tên lên -> Đi lên (Tăng Y âm)
+      break;
+
+    case "ArrowDown":
+    case "s":
+    case "S":
+      e.preventDefault();
+      moveBlock("LEFT"); // Mũi tên xuống -> Lùi/Đi xuống (Tăng Y dương)
+      break;
+
+    case "ArrowLeft":
+    case "a":
+    case "A":
+      e.preventDefault();
+      moveBlock("DOWN"); // Mũi tên trái -> Sang trái (Tăng X âm)
+      break;
+
+    case "ArrowRight":
+    case "d":
+    case "D":
+      e.preventDefault();
+      moveBlock("UP"); // Mũi tên phải -> Sang phải (Tăng X dương)
+      break;
   }
 });
 

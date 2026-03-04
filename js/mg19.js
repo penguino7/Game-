@@ -4,7 +4,7 @@ const statusMsg = document.getElementById("statusMessage");
 const finishBtn = document.getElementById("finishBtn");
 const hintBtn = document.getElementById("hintBtn");
 
-const WORDS = ["TROJAN", "WORM", "FIREWALL", "VPN", "PHISHING"];
+const WORDS = ["TROJAN", "WORM", "FIREWALL", "VPN"];
 const GRID_SIZE = 8;
 let grid = Array(GRID_SIZE)
   .fill(null)

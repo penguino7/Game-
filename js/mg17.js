@@ -14,25 +14,25 @@ const finishBtn = document.getElementById("finishBtn");
 // =========================================
 const QUESTIONS = [
   {
-    q: "Giao thức nào dưới đây dùng để bảo mật mạng Wi-Fi?",
+    q: "Which protocol below is used to secure Wi-Fi networks?",
     a: { A: "WPA3", B: "HTTP", C: "FTP", D: "SMTP" },
     correct: "A",
   },
   {
-    q: "Đâu là loại mã độc tống tiền phổ biến nhất?",
+    q: "Which is the most common type of ransomware (extortion malware)?",
     a: { A: "Spyware", B: "Ransomware", C: "Adware", D: "Worm" },
     correct: "B",
   },
   {
-    q: "Kỹ thuật giả mạo email để lừa đảo được gọi là gì?",
+    q: "What is the technique of spoofing emails to trick victims called?",
     a: { A: "DDoS", B: "SQLi", C: "Phishing", D: "XSS" },
     correct: "C",
   },
   {
-    q: "Hệ thống nào giúp ngăn chặn truy cập trái phép vào mạng?",
+    q: "Which system helps prevent unauthorized access to a network?",
     a: {
-      A: "Trình duyệt",
-      B: "Tường lửa (Firewall)",
+      A: "Web browser",
+      B: "Firewall",
       C: "Anti-virus",
       D: "VPN",
     },

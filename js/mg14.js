@@ -9,22 +9,32 @@ const finishBtn = document.getElementById("finishBtn");
 // Kho từ vựng bảo mật (Chỉ dùng chữ cái tiếng Anh A-Z không dấu)
 const WORDS = [
   {
-    word: "PHISHING",
-    hint: "Kỹ thuật lừa đảo qua email giả mạo để lấy cắp mật khẩu.",
+    word: "PROTOCOL",
+    hint: "A set of rules that defines how devices communicate and exchange data over a network.",
   },
   {
     word: "FIREWALL",
-    hint: "Bức tường lửa bảo vệ mạng lưới khỏi các truy cập trái phép.",
+    hint: "A security system that blocks or allows network traffic based on rules to prevent unauthorized access.",
   },
-  { word: "ENCRYPTION", hint: "Quá trình mã hóa dữ liệu để bảo vệ thông tin." },
-  { word: "MALWARE", hint: "Tên gọi chung của các phần mềm độc hại." },
+  {
+    word: "DNS",
+    hint: "The system that translates domain names (like example.com) into IP addresses.",
+  },
+  {
+    word: "MALWARE",
+    hint: "A general term for malicious software designed to harm or exploit systems.",
+  },
   {
     word: "BACKDOOR",
-    hint: "Cửa hậu giúp hacker truy cập hệ thống mà không cần xác thực.",
+    hint: "A hidden method of bypassing normal authentication to access a system.",
   },
   {
     word: "BOTNET",
-    hint: "Mạng lưới các máy tính bị nhiễm mã độc bị điều khiển từ xa.",
+    hint: "A network of infected devices controlled remotely, often used for large-scale attacks.",
+  },
+  {
+    word: "ENDPOINTS",
+    hint: "Devices (like PCs, phones, or servers) at the edge of a network that communicate with each other.",
   },
 ];
 

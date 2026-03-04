@@ -5,15 +5,21 @@ const startOverlay = document.getElementById("startOverlay");
 const statusMsg = document.getElementById("statusMessage");
 const finishBtn = document.getElementById("finishBtn");
 
-// 7 Từ khóa như cậu yêu cầu
 const DATA = [
-  { id: "1", text: "SQL Injection", group: "ATTACK" },
-  { id: "2", text: "Web Firewall (WAF)", group: "DEFENSE" },
-  { id: "3", text: "Cross-Site Scripting", group: "ATTACK" },
-  { id: "4", text: "Multi-Factor Auth", group: "DEFENSE" },
-  { id: "5", text: "DDoS Attack", group: "ATTACK" },
-  { id: "6", text: "Data Encryption", group: "DEFENSE" },
-  { id: "7", text: "Phishing Campaign", group: "ATTACK" },
+  { id: "1", text: "Prototype Pollution", group: "ATTACK" },
+  { id: "2", text: "CSP (Content Security Policy)", group: "DEFENSE" },
+  { id: "3", text: "HTTP Request Smuggling", group: "ATTACK" },
+  { id: "4", text: "Rate Limiting / Throttling", group: "DEFENSE" },
+  { id: "5", text: "SSRF (Server-Side Request Forgery)", group: "ATTACK" },
+  { id: "6", text: "CSRF Tokens + SameSite Cookies", group: "DEFENSE" },
+  { id: "7", text: "IDOR (Insecure Direct Object Reference)", group: "ATTACK" },
+  {
+    id: "8",
+    text: "Parameterized Queries (Prepared Statements)",
+    group: "DEFENSE",
+  },
+  { id: "9", text: "SSTI (Server-Side Template Injection)", group: "ATTACK" },
+  { id: "10", text: "Input Validation + Output Encoding", group: "DEFENSE" },
 ];
 
 let draggedItem = null;
