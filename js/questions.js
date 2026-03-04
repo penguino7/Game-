@@ -10,6 +10,7 @@ function pad2(n) {
   return String(n).padStart(2, "0");
 }
 
+// HÀM VẼ BẢNG CÂU HỎI
 function render() {
   if (!qGrid) return;
 
@@ -37,17 +38,19 @@ function render() {
   }).join("");
 }
 
-// Gộp chung logic xử lý khi người chơi chọn 1 ô
+// GỘP CHUNG LOGIC XỬ LÝ KHI NGƯỜI CHƠI CHỌN 1 Ô
 function handleTileAction(tile) {
   if (!tile) return;
 
-  // Nếu câu này đã giải quyết rồi, có thể báo lỗi nhẹ hoặc chặn lại
-  if (tile.classList.contains("done")) {
-    alert("Câu này đã bị hack xong rồi! Vui lòng chọn mục tiêu khác.");
-    return;
-  }
-
   const id = Number(tile.dataset.id);
+
+  // Nếu câu này đã làm xong, hiện hộp thoại hỏi xem có muốn chơi lại không
+  if (tile.classList.contains("done")) {
+    const replay = confirm(
+      `Câu Q${pad2(id)} đã hoàn thành. Bạn có muốn chơi lại không?`,
+    );
+    if (!replay) return; // Nếu bấm Cancel thì dừng lại, không làm gì cả
+  }
 
   // ĐIỀU HƯỚNG THÔNG MINH (ROUTING)
   if (id <= 10) {
@@ -62,6 +65,7 @@ function handleTileAction(tile) {
   }
 }
 
+// LẮNG NGHE SỰ KIỆN CLICK VÀ BÀN PHÍM TRÊN BẢNG
 qGrid.addEventListener("click", (e) => {
   handleTileAction(e.target.closest(".q-tile"));
 });
@@ -73,5 +77,21 @@ qGrid.addEventListener("keydown", (e) => {
   }
 });
 
-// Chạy hàm vẽ bảng
+// LOGIC CHO NÚT RESET TOÀN BỘ BẢNG
+const resetBtn = document.getElementById("resetBoardBtn");
+if (resetBtn) {
+  resetBtn.addEventListener("click", () => {
+    const isConfirm = confirm(
+      "⚠ Cảnh báo: Bạn có chắc chắn muốn xóa toàn bộ tiến trình và chơi lại từ đầu không?",
+    );
+    if (isConfirm) {
+      // Xóa dữ liệu trong bộ nhớ
+      localStorage.removeItem("game_states");
+      // Render lại bảng ngay lập tức
+      render();
+    }
+  });
+}
+
+// Chạy hàm vẽ bảng lần đầu khi load trang
 render();
