@@ -15,36 +15,13 @@
             <div class="q-badge">MINI-GAME 15</div>
             <h1>Cyber Classifier</h1>
             <p>
-              Phân loại các thuật ngữ vào đúng nhóm: Tấn công (Attacks) hoặc
-              Phòng thủ (Defenses).
+              Kéo thả các từ khóa bên trái vào đúng nhóm phân loại bên phải.
             </p>
           </div>
           <a class="btn-ghost" href="questions.html">← Abort</a>
         </header>
 
         <main class="mg-container">
-          <div class="sort-groups">
-            <div class="sort-bucket attack-zone" data-group="ATTACK">
-              <div class="bucket-icon">☣️</div>
-              <h2>ATTACKS</h2>
-              <div class="count-tag">
-                Items: <span id="countAttack">0</span>
-              </div>
-            </div>
-
-            <div class="sort-bucket defense-zone" data-group="DEFENSE">
-              <div class="bucket-icon">🛡️</div>
-              <h2>DEFENSES</h2>
-              <div class="count-tag">
-                Items: <span id="countDefense">0</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="deck-area">
-            <div id="cardDeck" class="card-deck"></div>
-          </div>
-
           <div id="startOverlay" class="start-overlay">
             <button
               id="startBtn"
@@ -53,6 +30,25 @@
             >
               ▶ BẮT ĐẦU PHÂN LOẠI
             </button>
+          </div>
+
+          <div class="game-layout">
+            <div class="left-col">
+              <h2 class="col-title">Unsorted (Chưa phân loại)</h2>
+              <div class="unsorted-list" id="unsortedList"></div>
+            </div>
+
+            <div class="right-col">
+              <div class="drop-group" data-group="ATTACK">
+                <h3 class="group-title">☣️ ATTACKS (Tấn công)</h3>
+                <div class="drop-zone" id="zoneAttack"></div>
+              </div>
+
+              <div class="drop-group" data-group="DEFENSE">
+                <h3 class="group-title">🛡️ DEFENSES (Phòng thủ)</h3>
+                <div class="drop-zone" id="zoneDefense"></div>
+              </div>
+            </div>
           </div>
         </main>
 

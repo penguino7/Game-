@@ -1,119 +1,121 @@
-const cardDeck = document.getElementById("cardDeck");
-const buckets = document.querySelectorAll(".sort-bucket");
+const unsortedList = document.getElementById("unsortedList");
+const dropGroups = document.querySelectorAll(".drop-group");
 const startBtn = document.getElementById("startBtn");
 const startOverlay = document.getElementById("startOverlay");
 const statusMsg = document.getElementById("statusMessage");
 const finishBtn = document.getElementById("finishBtn");
 
-// Dữ liệu phân loại
+// 7 Từ khóa như cậu yêu cầu
 const DATA = [
-  { text: "SQL Injection", group: "ATTACK" },
-  { text: "WAF (Firewall)", group: "DEFENSE" },
-  { text: "Brute Force", group: "ATTACK" },
-  { text: "2FA Authentication", group: "DEFENSE" },
-  { text: "Phishing Email", group: "ATTACK" },
-  { text: "SSL/TLS", group: "DEFENSE" },
-  { text: "DDoS Attack", group: "ATTACK" },
-  { text: "Antivirus", group: "DEFENSE" },
-  { text: "Trojan Horse", group: "ATTACK" },
-  { text: "Encryption", group: "DEFENSE" },
+  { id: "1", text: "SQL Injection", group: "ATTACK" },
+  { id: "2", text: "Web Firewall (WAF)", group: "DEFENSE" },
+  { id: "3", text: "Cross-Site Scripting", group: "ATTACK" },
+  { id: "4", text: "Multi-Factor Auth", group: "DEFENSE" },
+  { id: "5", text: "DDoS Attack", group: "ATTACK" },
+  { id: "6", text: "Data Encryption", group: "DEFENSE" },
+  { id: "7", text: "Phishing Campaign", group: "ATTACK" },
 ];
 
-let deck = [];
-let currentCard = null;
-let attackCount = 0;
-let defenseCount = 0;
+let draggedItem = null;
+let correctCount = 0;
 
-// 1. Khởi tạo bài
-function initDeck() {
-  // Trộn bài
-  deck = [...DATA].sort(() => Math.random() - 0.5);
-  renderTopCard();
+// 1. Dàn các thẻ ra cột bên trái
+function initGame() {
+  unsortedList.innerHTML = "";
+  document.getElementById("zoneAttack").innerHTML = "";
+  document.getElementById("zoneDefense").innerHTML = "";
+  correctCount = 0;
+
+  // Xáo trộn mảng để mỗi lần chơi thứ tự thẻ một khác
+  const shuffled = [...DATA].sort(() => Math.random() - 0.5);
+
+  shuffled.forEach((item) => {
+    const div = document.createElement("div");
+    div.className = "sort-item";
+    div.textContent = item.text;
+    div.draggable = true;
+    div.dataset.group = item.group;
+
+    // Bắt sự kiện bắt đầu kéo
+    div.addEventListener("dragstart", function () {
+      draggedItem = this;
+      setTimeout(() => (this.style.opacity = "0.5"), 0);
+    });
+
+    // Bắt sự kiện thả chuột ra
+    div.addEventListener("dragend", function () {
+      setTimeout(() => {
+        this.style.opacity = "1";
+        draggedItem = null;
+      }, 0);
+    });
+
+    unsortedList.appendChild(div);
+  });
 }
 
-function renderTopCard() {
-  if (deck.length === 0) {
-    endGame();
-    return;
-  }
-
-  const cardData = deck[deck.length - 1]; // Lấy thẻ trên cùng
-  const card = document.createElement("div");
-  card.className = "sort-card";
-  card.textContent = cardData.text;
-  card.dataset.group = cardData.group;
-  card.draggable = true;
-
-  // Xử lý sự kiện kéo
-  card.addEventListener("dragstart", (e) => {
-    currentCard = card;
-    card.style.opacity = "0.5";
+// 2. Xử lý logic cho các Nhóm đích (Cột phải)
+dropGroups.forEach((group) => {
+  // Khi thẻ bay lơ lửng trên nhóm
+  group.addEventListener("dragover", (e) => {
+    e.preventDefault(); // Cho phép thả
+    group.classList.add("hover");
   });
 
-  card.addEventListener("dragend", () => {
-    card.style.opacity = "1";
+  // Khi kéo thẻ ra khỏi nhóm
+  group.addEventListener("dragleave", () => {
+    group.classList.remove("hover");
   });
 
-  cardDeck.appendChild(card);
-}
-
-// 2. Xử lý sự kiện thả (Drop)
-buckets.forEach((bucket) => {
-  bucket.addEventListener("dragover", (e) => {
+  // Khi thả thẻ vào nhóm
+  group.addEventListener("drop", (e) => {
     e.preventDefault();
-    bucket.classList.add("hover");
-  });
+    group.classList.remove("hover");
 
-  bucket.addEventListener("dragleave", () => {
-    bucket.classList.remove("hover");
-  });
+    if (!draggedItem) return;
 
-  bucket.addEventListener("drop", (e) => {
-    e.preventDefault();
-    bucket.classList.remove("hover");
+    const targetGroup = group.dataset.group;
+    const itemGroup = draggedItem.dataset.group;
 
-    const targetGroup = bucket.dataset.group;
-    const cardGroup = currentCard.dataset.group;
-
-    if (targetGroup === cardGroup) {
-      // Đúng -> Xóa thẻ, cộng điểm, hiện thẻ tiếp theo
-      currentCard.remove();
-      deck.pop();
-
-      if (cardGroup === "ATTACK") {
-        attackCount++;
-        document.getElementById("countAttack").textContent = attackCount;
-      } else {
-        defenseCount++;
-        document.getElementById("countDefense").textContent = defenseCount;
-      }
-
-      renderTopCard();
+    // KIỂM TRA ĐÚNG SAI CẤP TỐC
+    if (targetGroup === itemGroup) {
+      // ĐÚNG: Nhét thẻ vào vùng drop-zone bên trong
+      const zone = group.querySelector(".drop-zone");
+      draggedItem.draggable = false; // Ngăn không cho lôi ra ngoài nữa
+      zone.appendChild(draggedItem);
+      correctCount++;
+      checkWin();
     } else {
-      // Sai -> Hiệu ứng rung báo lỗi
-      bucket.style.borderColor = "#ef4444";
-      setTimeout(() => (bucket.style.borderColor = ""), 500);
+      // SAI: Khung nháy đỏ cảnh báo
+      group.style.borderColor = "#ef4444";
+      group.style.backgroundColor = "rgba(239, 68, 68, 0.15)";
+      setTimeout(() => {
+        group.style.borderColor = "";
+        group.style.backgroundColor = "";
+      }, 400);
     }
   });
 });
 
-// 3. Bắt đầu game
+// Nút Start
 startBtn.addEventListener("click", () => {
   startOverlay.classList.add("hidden");
-  initDeck();
+  initGame();
 });
 
-// 4. Kết thúc
-function endGame() {
-  statusMsg.textContent = "Phân loại hoàn tất! Hệ thống đã được kiểm tra.";
-  statusMsg.className = "feedback-box success";
-  statusMsg.classList.remove("hidden");
-  finishBtn.style.display = "block";
+// Hàm kiểm tra Win
+function checkWin() {
+  if (correctCount === DATA.length) {
+    statusMsg.textContent =
+      "Hoàn hảo! Bạn đã phân loại chính xác toàn bộ hệ thống.";
+    statusMsg.className = "feedback-box success";
+    statusMsg.classList.remove("hidden");
+    finishBtn.style.display = "block";
 
-  // Lưu trạng thái DONE
-  let states = JSON.parse(localStorage.getItem("game_states") || "{}");
-  states[15] = "DONE";
-  localStorage.setItem("game_states", JSON.stringify(states));
+    let states = JSON.parse(localStorage.getItem("game_states") || "{}");
+    states[15] = "DONE";
+    localStorage.setItem("game_states", JSON.stringify(states));
+  }
 }
 
 finishBtn.onclick = () => (window.location.href = "questions.html");
