@@ -1,3 +1,6 @@
+/* =========================================
+   LAYOUT CHUNG
+========================================= */
 .mg-header {
   display: flex;
   justify-content: space-between;
@@ -5,17 +8,17 @@
   margin-bottom: 20px;
 }
 
+/* Khu vực bầu trời (Game Area) */
 .mg-container {
   position: relative;
   width: 100%;
-  height: 450px; /* Chiều cao bầu trời */
-  background: #0b1220; /* Nền tối */
+  height: 600px; /* Bầu trời cao 600px bay cho đã */
+  background: #0b1220; /* Nền tối của Terminal */
   border: 2px solid rgba(59, 130, 246, 0.3);
   border-radius: 18px;
   overflow: hidden;
   box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
-  /* Trỏ chuột hình tâm ngắm bắn */
-  cursor: crosshair;
+  cursor: crosshair; /* Trỏ chuột thành tâm ngắm bắn */
 }
 
 /* =========================================
@@ -23,36 +26,29 @@
 ========================================= */
 .flying-item {
   position: absolute;
-  bottom: -60px; /* Bắt đầu từ dưới đáy khuất màn hình */
-  padding: 12px 20px;
+  bottom: -80px;
+  padding: 12px 24px; /* Giảm từ 18x32 xuống 12x24 để nhỏ gọn hơn */
   border-radius: 12px;
   font-weight: 800;
-  font-size: 16px;
+  font-size: 18px; /* Giảm từ 24px xuống 18px */
   color: #fff;
   user-select: none;
-  /* Chuyển động bay mượt bằng CSS Transform */
   transition: transform linear;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  touch-action: none;
+  z-index: 2;
 }
 
-/* Loại Mã độc (Đỏ) */
+/* Loại Mã độc (Màu Đỏ) */
 .flying-item.threat {
-  background: rgba(239, 68, 68, 0.8);
+  background: rgba(239, 68, 68, 0.85);
   border: 2px solid #ef4444;
 }
 
-/* Loại An toàn (Xanh lá) */
+/* Loại An toàn (Màu Xanh lá) */
 .flying-item.safe {
-  background: rgba(34, 197, 94, 0.8);
+  background: rgba(34, 197, 94, 0.85);
   border: 2px solid #22c55e;
-}
-
-/* Hiệu ứng nổ khi bắn trúng mã độc */
-.flying-item.exploded {
-  transform: scale(1.5) !important;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.2s ease-out;
 }
 
 /* =========================================
@@ -75,9 +71,10 @@
 
 .start-overlay.hidden {
   opacity: 0;
-  pointer-events: none;
+  pointer-events: none; /* Không cho tương tác khi đã ẩn */
 }
 
+/* Hiển thị điểm số */
 .score-pill {
   background: rgba(59, 130, 246, 0.15);
   border: 2px solid #3b82f6;
@@ -88,6 +85,7 @@
   font-size: 24px;
 }
 
+/* Hiển thị đếm ngược */
 .timer-pill {
   background: rgba(239, 68, 68, 0.15);
   border: 2px solid #ef4444;
