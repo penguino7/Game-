@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Security Challenge</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="frame">
+        <!-- TOP STRIP (1 bỏ navbar) -->
+        <header class="topstrip">
+          <div class="brand">
+            <div class="logo"></div>
+            <div class="brand-text">
+              <h1>Security Challenge</h1>
+              <p>Team Battle • Web Knowledge • Hacking & Defense</p>
+            </div>
+          </div>
+
+          <!-- (2) thay search/get started bằng mini status + score -->
+          <div class="mini-panel">
+            <div class="status-pill">
+              <span class="status-dot"></span>
+              System: <b>LIVE</b>
+            </div>
+
+            <div class="score-pill">
+              <span class="t">T1</span><span class="t">T2</span
+              ><span class="t">T3</span><span class="t">T4</span>
+              <span class="sep"></span>
+              <span class="score">0</span> : <span class="score">0</span> :
+              <span class="score">0</span> : <span class="score">0</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- HERO (3) nội dung security/hacking -->
+        <main class="hero">
+          <section class="hero-left">
+            <div class="hero-tag">SECURITY / HACKING GAME</div>
+
+            <h2>Make the web</h2>
+            <h2 class="accent">safe by thinking like an attacker.</h2>
+
+            <p class="hero-desc">
+              4 đội sẽ đấu trí qua 30 câu hỏi về HTTP, Cookies, XSS, SQLi, CORS,
+              Auth… Mỗi câu đúng mở khóa “shield” hoặc “exploit token” cho vòng
+              cuối.
+            </p>
+
+            <div class="hero-actions">
+              <button id="startBtn" class="btn-primary" type="button">
+                Start The Challenge
+              </button>
+              <button class="btn-ghost" type="button" id="howBtn">
+                How it works
+              </button>
+            </div>
+
+            <div class="hero-meta">
+              <div class="meta-chip"><b>Mode:</b> Team vs Team</div>
+              <div class="meta-chip">
+                <b>Rounds:</b> Quick • Decode • Speed • Final
+              </div>
+              <div class="meta-chip"><b>Focus:</b> Web Security</div>
+            </div>
+          </section>
+
+          <!-- RIGHT HERO (thay hình người bằng “security dashboard + cards”) -->
+          <section class="hero-right">
+            <div class="dash">
+              <div class="dash-card">
+                <div class="dash-title">Threat Monitor</div>
+                <div class="dash-row">
+                  <span class="k">XSS attempts</span>
+                  <span class="v warn">+12</span>
+                </div>
+                <div class="dash-row">
+                  <span class="k">SQLi probes</span>
+                  <span class="v warn">+5</span>
+                </div>
+                <div class="dash-row">
+                  <span class="k">Blocked requests</span>
+                  <span class="v ok">143</span>
+                </div>
+              </div>
+
+              <div class="dash-card terminal">
+                <div class="dash-title">Console</div>
+                <div class="term" id="term">
+                  <div>> boot: security-challenge</div>
+                  <div>> loading: question-board</div>
+                  <div>> status: <span class="ok">READY</span></div>
+                </div>
+              </div>
+
+              <div class="float-note">
+                <div class="avatar"></div>
+                <div>
+                  <div class="note-title">Hint</div>
+                  <div class="note-text">
+                    Remember: validate input & encode output.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <!-- (4) SLIDER 5 cái tự chạy (dạng “project cards” như ảnh) -->
+        <section class="bottom">
+          <div class="bottom-head">
+            <h3>Security Missions (Auto Slide)</h3>
+            <p>5 mini chủ đề — slide tự chạy, click để xem nhanh.</p>
+          </div>
+
+          <div class="mission-wrap">
+            <button class="nav-btn prev" type="button" aria-label="Previous">
+              ‹
+            </button>
+
+            <div class="mission-viewport">
+              <div class="mission-track" id="missionTrack">
+                <article class="mission">
+                  <div class="mission-top">
+                    <span class="badge blue">HTTP</span>
+                    <span class="small">Mission 1/5</span>
+                  </div>
+                  <h4>Request & Status Codes</h4>
+                  <p>Nhận diện method, status, headers và ý nghĩa bảo mật.</p>
+                  <div class="meter"><span style="width: 78%"></span></div>
+                  <div class="mission-foot">
+                    <span class="chip">GET/POST</span
+                    ><span class="chip">401/403</span
+                    ><span class="chip">HSTS</span>
+                  </div>
+                </article>
+
+                <article class="mission">
+                  <div class="mission-top">
+                    <span class="badge purple">XSS</span>
+                    <span class="small">Mission 2/5</span>
+                  </div>
+                  <h4>Stop Script Injection</h4>
+                  <p>Phân biệt Stored/Reflected/DOM XSS và cách phòng thủ.</p>
+                  <div class="meter"><span style="width: 62%"></span></div>
+                  <div class="mission-foot">
+                    <span class="chip">CSP</span><span class="chip">Encode</span
+                    ><span class="chip">Sanitize</span>
+                  </div>
+                </article>
+
+                <article class="mission">
+                  <div class="mission-top">
+                    <span class="badge green">AUTH</span>
+                    <span class="small">Mission 3/5</span>
+                  </div>
+                  <h4>Access Control</h4>
+                  <p>Chặn IDOR, role bypass và broken access control.</p>
+                  <div class="meter"><span style="width: 55%"></span></div>
+                  <div class="mission-foot">
+                    <span class="chip">RBAC</span><span class="chip">IDOR</span
+                    ><span class="chip">Least Privilege</span>
+                  </div>
+                </article>
+
+                <article class="mission">
+                  <div class="mission-top">
+                    <span class="badge red">SQLi</span>
+                    <span class="small">Mission 4/5</span>
+                  </div>
+                  <h4>Query Defense</h4>
+                  <p>
+                    Parameterize queries, validate input, block payload
+                    patterns.
+                  </p>
+                  <div class="meter"><span style="width: 70%"></span></div>
+                  <div class="mission-foot">
+                    <span class="chip">Prepared</span
+                    ><span class="chip">ORM</span><span class="chip">WAF</span>
+                  </div>
+                </article>
+
+                <article class="mission">
+                  <div class="mission-top">
+                    <span class="badge amber">CORS</span>
+                    <span class="small">Mission 5/5</span>
+                  </div>
+                  <h4>Cross-Origin Rules</h4>
+                  <p>Hiểu CORS, preflight, và những hiểu lầm hay gặp.</p>
+                  <div class="meter"><span style="width: 48%"></span></div>
+                  <div class="mission-foot">
+                    <span class="chip">Preflight</span
+                    ><span class="chip">Origin</span
+                    ><span class="chip">Credentials</span>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <button class="nav-btn next" type="button" aria-label="Next">
+              ›
+            </button>
+          </div>
+
+          <div class="dots" id="missionDots"></div>
+        </section>
+      </div>
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

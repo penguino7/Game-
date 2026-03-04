@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Question Board — Security Challenge</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/questions.css" />
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="frame">
+        <!-- HEADER -->
+        <header class="q-top">
+          <div>
+            <div class="q-badge">QUESTION BOARD</div>
+            <h1>Choose a Question</h1>
+            <p>30 ô đại diện (Q01–Q30). Click để mở bước tiếp theo.</p>
+          </div>
+
+          <div class="q-actions">
+            <a class="q-link" href="index.html">← Back Home</a>
+          </div>
+        </header>
+
+        <!-- QUESTION BOARD ONLY -->
+        <main class="q-main" aria-label="Question tiles board">
+          <section class="q-board">
+            <div class="q-grid" id="qGrid"></div>
+          </section>
+
+          <div class="q-board-foot">
+            Click Qxx để mở challenge. Board scroll dọc để gọn.
+          </div>
+        </main>
+
+        <footer class="q-footer">
+          <span>Tip: Bảng chỉ render 30 ô đơn giản nên rất mượt.</span>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/questions.meta.js"></script>
+    <script src="js/questions.js"></script>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Challenge — Security Challenge</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/qna.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="frame">
+        <header class="qna-top">
+          <div class="qna-header-left">
+            <div class="q-badge" id="qLabel">CHALLENGE 00</div>
+            <h1 id="qTopic">Loading Topic...</h1>
+          </div>
+          <div class="qna-header-right">
+            <div class="status-pill">
+              <span class="status-dot"></span>
+              <span id="qPoints">-- PTS</span>
+            </div>
+            <a class="btn-ghost qna-back" href="questions.html">← Abort</a>
+          </div>
+        </header>
+
+        <main class="qna-main">
+          <div class="qna-content">
+            <h2 id="qText" class="q-text">Loading question...</h2>
+
+            <div
+              id="qSnippetBox"
+              class="terminal q-snippet"
+              style="display: none"
+            >
+              <div class="term" id="qSnippet"></div>
+            </div>
+          </div>
+
+          <div class="qna-options" id="qOptions"></div>
+        </main>
+
+        <footer class="qna-footer">
+          <div id="feedbackBox" class="feedback-box hidden"></div>
+          <button id="submitBtn" class="btn-primary" disabled>
+            Submit Payload
+          </button>
+        </footer>
+      </div>
+    </div>
+    <script src="js/qna.data.js"></script>
+    <script src="js/qna.js"></script>
+  </body>
+</html>

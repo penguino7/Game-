@@ -1,0 +1,214 @@
+/* Kế thừa các biến từ style.css của cậu */
+
+.qna-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(15, 23, 42, 0.07);
+  box-shadow: var(--shadow2);
+  margin-bottom: 24px;
+}
+
+.qna-header-left h1 {
+  margin: 8px 0 0;
+  font-size: 24px;
+  color: var(--text);
+}
+
+.qna-header-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.qna-back {
+  text-decoration: none;
+  font-size: 13px;
+  padding: 8px 14px;
+}
+
+/* Question Text */
+.qna-content {
+  margin-bottom: 28px;
+}
+
+.q-text {
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--text);
+  font-weight: 600;
+  margin: 0 0 16px 0;
+}
+
+.q-snippet {
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+/* Options Grid */
+.qna-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.opt-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(15, 23, 42, 0.1);
+  border-radius: 16px;
+  padding: 18px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.opt-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+}
+
+.opt-btn.selected {
+  background: rgba(59, 130, 246, 0.05);
+  border-color: var(--primary2);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+.opt-btn.correct {
+  background: rgba(34, 197, 94, 0.05);
+  border-color: #22c55e;
+  color: #15803d;
+}
+
+.opt-btn.wrong {
+  background: rgba(239, 68, 68, 0.05);
+  border-color: #ef4444;
+  color: #b91c1c;
+}
+
+.opt-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.05);
+  font-weight: 900;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.opt-btn.selected .opt-letter {
+  background: var(--primary);
+  color: white;
+}
+
+/* Footer & Feedback */
+.qna-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px dashed rgba(15, 23, 42, 0.1);
+  padding-top: 20px;
+}
+
+.feedback-box {
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.feedback-box.hidden {
+  display: none;
+}
+.feedback-box.success {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+.feedback-box.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+/* =======================================================
+   1. CĂN GIỮA TUYỆT ĐỐI TOÀN MÀN HÌNH
+======================================================= */
+body {
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* =======================================================
+   2. ÉP KHUNG VÀO KÍCH THƯỚC CHUẨN (TẠO GRID 2x2)
+======================================================= */
+.page {
+  width: 100%;
+  max-width: 860px; /* Bóp chiều rộng lại để ép 4 đáp án thành 2 dòng x 2 cột */
+  padding: 20px;
+  margin: 0;
+}
+
+.frame {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =======================================================
+   3. TINH CHỈNH MÀU SẮC DARK MODE (GIỐNG ẢNH CẬU CHỤP)
+======================================================= */
+.qna-top {
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+
+.q-text {
+  color: #f8fafc;
+}
+
+.opt-btn {
+  background: rgba(15, 23, 42, 0.5); /* Nền tối mờ */
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  color: var(--text);
+  min-height: 72px; /* Đảm bảo các nút cao bằng nhau */
+}
+
+.opt-btn:hover {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: var(--blue);
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.1);
+}
+
+.opt-letter {
+  background: rgba(148, 163, 184, 0.1);
+  color: #94a3b8;
+}
+
+/* Căn chỉnh lại footer để chứa nút Submit và Box thông báo */
+.qna-footer {
+  display: flex;
+  justify-content: flex-start; /* Đẩy nội dung sang trái */
+  flex-direction: row-reverse; /* Đảo nút Submit sang phải nếu thích, hoặc bỏ dòng này để Submit bên trái */
+  align-items: center;
+  gap: 20px;
+  border-top: 1px dashed var(--border);
+  padding-top: 20px;
+  margin-top: 10px;
+}
