@@ -40,7 +40,7 @@ const LEVELS = [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ],
     start: { x: 1, y: 1 },
-    uestion: "What is the primary purpose of a firewall in network security?",
+    question: "What is the primary purpose of a firewall in network security?",
     answers: [
       "To monitor and control incoming and outgoing network traffic based on security rules",
       "To physically cool down computer hardware",
